@@ -20,6 +20,7 @@
       margin: 0 auto;
       padding: 28px 20px;
     }
+
     /* Left sidebar */
     .sidebar { position: sticky; top: 20px; align-self: start; border-right: 1px solid #e8edf3; padding-right: 16px; }
     .sidebar .brand { font-weight: 700; font-size: 1.1rem; margin: 0 0 8px; }
@@ -29,13 +30,24 @@
     .sidebar a:hover { text-decoration: underline; }
     .sidebar a.active { font-weight: 600; }
 
+    /* Red arrows in the LEFT SIDEBAR (same format/location as Home) */
+    .sidebar nav li::before {
+      content: "►";
+      display: block;
+      float: left;
+      width: 1.2em;
+      color: #ff0000;
+    }
+    .sidebar nav a { display: block; } /* ensures text lines up to the right of the arrow */
+
     /* Center/narrow content column */
     .content { max-width: 720px; margin: 0 auto; }
     .content p { margin: 0 0 0.85rem; }
     .content h1, .content h2 { margin: 0.2rem 0 0.8rem; font-weight: 700; }
 
-    /* Keep your red arrow bullets if you use li:before elsewhere */
-    li:before { color: #ff0000; }
+    /* Keep numbered lists normal inside main content (no arrows) */
+    .content ol { list-style: decimal; padding-left: 1.2em; }
+    .content ol li::before { content: none !important; }
 
     /* Responsive */
     @media (max-width: 800px) {
