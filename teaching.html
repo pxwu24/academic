@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Research - Peixue Wu</title>
+  <title>Teaching - Peixue Wu</title>
 
-  <!-- Same layout + styles as your main page -->
+  <!-- Same layout + styles as research/index pages -->
   <style>
     /* Reset-ish */
     html, body { height: 100%; }
@@ -20,6 +20,7 @@
       margin: 0 auto;
       padding: 28px 20px;
     }
+
     /* Left sidebar */
     .sidebar { position: sticky; top: 20px; align-self: start; border-right: 1px solid #e8edf3; padding-right: 16px; }
     .sidebar .brand { font-weight: 700; font-size: 1.1rem; margin: 0 0 8px; }
@@ -29,13 +30,24 @@
     .sidebar a:hover { text-decoration: underline; }
     .sidebar a.active { font-weight: 600; }
 
+    /* Red arrows in the LEFT SIDEBAR (same format/location as Home/Research) */
+    .sidebar nav li::before {
+      content: "►";
+      display: block;
+      float: left;
+      width: 1.2em;
+      color: #ff0000;
+    }
+    .sidebar nav a { display: block; }
+
     /* Center/narrow content column */
     .content { max-width: 720px; margin: 0 auto; }
     .content p { margin: 0 0 0.85rem; }
     .content h1, .content h2 { margin: 0.2rem 0 0.8rem; font-weight: 700; }
 
-    /* Keep your red arrow bullets if you use li:before elsewhere */
-    li:before { color: #ff0000; }
+    /* Keep numbered lists normal inside main content (no arrows) */
+    .content ol { list-style: decimal; padding-left: 1.2em; }
+    .content ol li::before { content: none !important; }
 
     /* Responsive */
     @media (max-width: 800px) {
@@ -67,132 +79,27 @@
       <h1>Teaching</h1>
 
       <section>
-        <h2>Overview</h2>
-        <p>
-          The following is a list of the courses and recitations I taught during my PhD and Postdoc. 
-        </p>
+        <h2>Courses</h2>
+        <ol>
+          <li>
+            <a href="https://peixue-wu.github.io/2024math237/">Math 237: Calculus 3 for Honours Mathematics</a>,
+            Summer 2024 (146 students).
+          </li>
+          <li>
+            MATH 231 Calculus II, recitations, Fall 2020 at University of Illinois at Urbana–Champaign.
+          </li>
+          <li>
+            MATH 220 Calculus I, recitations, Spring 2021 at University of Illinois at Urbana–Champaign.
+          </li>
+          <li>
+            MATH 220 Calculus I, recitations, Fall 2021 at University of Illinois at Urbana–Champaign.
+          </li>
+          <li>
+            MATH 241 Calculus III, recitations, Spring 2022 at University of Illinois at Urbana–Champaign.
+          </li>
+        </ol>
       </section>
-
-      <section>
-        
     </main>
   </div>
 </body>
 </html>
-
-
-
-<a id="teaching"></a>
-        <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:18.0pt;font-family:Times'>
-                    Teaching
-                    <o:p></o:p>
-                </span>
-            </b>
-        </p>
-          <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:18.0pt;font-family:Times'>
-                    <o:p>&nbsp;</o:p>
-                </span>
-            </b>
-        </p>
-        
-        <p class=MsoNormal>
-            <span style='font-size:14.0pt;font-family:Times'>
-                <a href="https://peixue-wu.github.io/2024math237/ ">Math 237: Calculus 3 for Honours Mathematics, </a>
-                 Summer 2024 (146 students).
-                <o:p></o:p>
-            </span>
-        </p>
-        
-        <p class=MsoNormal>
-            <span style='font-size:14.0pt;font-family:Times'>
-                <o:p></o:p>
-            </span>
-        </p>
-
-        <p class=MsoNormal style='background:white'>
-            <span style='font-size:14.0pt;
-            font-family:Times;mso-fareast-font-family:"Times New Roman";mso-bidi-font-family:
-            Arial;color:#444444'>
-                <o:p>&nbsp;</o:p>
-            </span>
-        </p>
-
-        <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:18.0pt;font-family:Times'>
-                    <o:p>&nbsp;</o:p>
-                </span>
-            </b>
-        </p>
-        
-        <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:18.0pt;font-family:Times'>
-                    <o:p>&nbsp;</o:p>
-                </span>
-            </b>
-        </p>
-
-        <a id="talks"></a>
-        <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:18.0pt;font-family:Times'>
-                    Recent talks
-                    <o:p></o:p>
-                </span>
-            </b>
-        </p>
-        
-        <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:18.0pt;font-family:Times'>
-                    <o:p>&nbsp;</o:p>
-                </span>
-            </b>
-        </p>
-
-        <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:14.0pt;font-family:Times'>
-                   Reverse-type data processing inequality, <a href="https://calendars.illinois.edu/detail/7421?eventId=33501897">UIUC</a>, November, 2024.
-                    <o:p></o:p>
-                </span>
-            </b>
-        </p>
-        <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:14.0pt;font-family:Times'>
-                    Lower bound for gate complexity via quantum optimal transport, <a href="https://berkeleyams.lbl.gov/fall24/">UC Berkeley</a>, November, 2024.
-                    <o:p></o:p>
-                </span>
-            </b>
-        </p>
-        
-         <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:14.0pt;font-family:Times'>
-                    Lower bound for simulation cost of quantum Markov semigroups, <a href="https://maths.whu.edu.cn/info/1115/128601.htm">Wuhan University</a>, September, 2024.
-                    <o:p></o:p>
-                </span>
-            </b>
-        </p>
-
-        <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:18.0pt;font-family:Times'>
-                    <o:p>&nbsp;</o:p>
-                </span>
-            </b>
-        </p>
-        
-        <p class=MsoNormal>
-            <b style='mso-bidi-font-weight:normal'>
-                <span style='font-size:18.0pt;font-family:Times'>
-                    <o:p>&nbsp;</o:p>
-                </span>
-            </b>
-        </p>
