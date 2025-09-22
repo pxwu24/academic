@@ -1,103 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/TR/REC-html40">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Research - Peixue Wu</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Ensure this path matches your CSS file -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research - Peixue Wu</title>
+
+  <!-- Same layout + styles as your main page -->
+  <style>
+    /* Reset-ish */
+    html, body { height: 100%; }
+    body { margin: 0; font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",Helvetica,"Noto Sans",sans-serif; color:#111; }
+
+    /* --- Page Layout (same as index.html) --- */
+    .layout {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 20px;
+    }
+    /* Left sidebar */
+    .sidebar { position: sticky; top: 20px; align-self: start; border-right: 1px solid #e8edf3; padding-right: 16px; }
+    .sidebar .brand { font-weight: 700; font-size: 1.1rem; margin: 0 0 8px; }
+    .sidebar nav ul { list-style: none; margin: 0; padding: 0; }
+    .sidebar nav li + li { margin-top: 8px; }
+    .sidebar a { text-decoration: none; color: #0b5bd3; }
+    .sidebar a:hover { text-decoration: underline; }
+    .sidebar a.active { font-weight: 600; }
+
+    /* Center/narrow content column */
+    .content { max-width: 720px; margin: 0 auto; }
+    .content p { margin: 0 0 0.85rem; }
+    .content h1, .content h2 { margin: 0.2rem 0 0.8rem; font-weight: 700; }
+
+    /* Keep your red arrow bullets if you use li:before elsewhere */
+    li:before { color: #ff0000; }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; border-right: 0; border-bottom: 1px solid #e8edf3; padding-bottom: 12px; margin-bottom: 16px; }
+      .sidebar nav ul { display: flex; gap: 14px; flex-wrap: wrap; }
+      .content { max-width: 100%; }
+    }
+  </style>
 </head>
+
 <body>
-    <header>
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="research.html">Research</a>
-            <!-- Add other navigation links as needed -->
-        </nav>
-    </header>
-    <main>
-        <h1>Research</h1>
-        <section>
-            <h2>Overview</h2>
-            <p>
-                My research focuses on quantum information theory, noncommutative analysis and probability theory. The highlight of my research consists of a deep mathematical understanding of open quantum systems and quantum communications.
-            </p>
-        </section>
-        <section>
-            <h2>Publications and preprints(alphabetical authorship convention unless starred) </h2>
-            <ol>
-                <li>
-                    <strong><a href="https://arxiv.org/abs/2506.04197" target="_blank">Quantum capacity amplification via privacy</a></strong><br>
-                    <em>Peixue Wu, Yunkai Wang</em><br>
-                    <span>2025 IEEE International Symposium on Information Theory (ISIT) , June 2025</span>
-                </li>
-                <li>
-                    <strong><a href="https://arxiv.org/abs/2506.04197" target="_blank">Transportation cost and contraction coefficient for channels on von Neumann algebras</a></strong><br>
-                    <em>Roy Araiza, Marius Junge, Peixue Wu</em><br>
-                    <span>arXiv:2506.04197, submitted, June 2025</span>
-                </li>
-                <li>
-                    <strong><a href="https://arxiv.org/abs/2411.19890" target="_blank">Reverse-type Data Processing Inequality</a></strong><br>
-                    <em>Paula Belzig, Li Gao, Graeme Smith, Peixue Wu</em><br>
-                    <span>arXiv:2411.19890, accepted at Communications in Mathematical Physics, 2025.</span>
-                </li>
-                <li>
-                    <strong><a href="https://arxiv.org/abs/2409.03927" target="_blank">Additivity of quantum capacities in simple non-degradable quantum channels</a></strong><br>
-                    <em>Graeme Smith, Peixue Wu</em><br>
-                    <span>arXiv:2409.03927, IEEE Transactions on Information Theory ( Volume: 71, Issue: 8, August 2025).</span>
-                </li>
-                <li>
-                    <strong><a href="https://link.springer.com/article/10.1007/s00220-025-05240-6" target="_blank">Lower bound for simulation cost of open quantum systems: Lipschitz continuity approach</a></strong><br>
-                    <em>Zhiyan Ding, Marius Junge, Philipp Schleich, Peixue Wu</em><br>
-                    <span>arXiv:2407.15357, Communications in Mathematical Physics 406, no. 3 (2025): 60.</span>
-                </li>
-                 <li>
-                    <strong><a href="https://link.springer.com/article/10.1007/s11128-024-04291-3" target="_blank">A note on the stabilizer formalism via noncommutative graphs</a></strong><br>
-                    <em>Roy Araiza, Jihong Cai, Yushan Chen, Abraham Holtermann, Chieh Hsu, Tushar Mohan, Peixue Wu, Zeyuan Yu</em><br>
-                    <span>arXiv:2310.00762, Quantum Information Processing 23.3 (2024): 84. February 2024</span>
-                </li>
-                <li>
-                    <strong><a href="https://arxiv.org/abs/2303.11304" target="_blank">Resource-Dependent Complexity of Quantum Channels</a></strong><br>
-                    <em>Roy Araiza, Yidong Chen, Marius Junge, Peixue Wu</em><br>
-                    <span>arXiv:2303.11304, accepted at Quantum, 2025.</span>
-                </li>
-                <li>
-                    <strong><a href="https://arxiv.org/abs/2211.07527" target="_blank">Stability property for the quantum jump operators of an open system</a></strong><br>
-                    <em>Marius Junge, Peixue Wu</em><br>
-                    <span>arXiv:2211.07527, in revision, November 2022</span>
-                </li>
-                <li>
-                    <strong><a href="https://arxiv.org/abs/2203.03891" target="_blank">Heat kernel estimates for regional fractional Laplacians with multi-singular critical potentials in $C^{1,\beta}$ open sets</a></strong><br>
-                    <em>Renming Song, Peixue Wu, Shukun Wu</em><br>
-                    <span>arXiv:2203.03891, Stochastic Processes and their Applications, 2025</span>
-                </li>
-                <li>
-                    <strong><a href="https://ieeexplore.ieee.org/abstract/document/10206477?casa_token=jWaYVbY3jEsAAAAA:XUc9oI7D9ijxLnnvxnFsfkut-7dVmSWlRwNGrYLaTql1Mj-ti2dw0vP08lQ06tba_MjQd78FZQ" target="_blank">*Quantum secret sharing and tripartite information</a></strong><br>
-                    <em>Guangkuo Liu, Peixue Wu, Hanuel Kim, Marius Junge</em><br>
-                    <span>arXiv:2012.08445, 2023 IEEE International Symposium on Information Theory (ISIT) (pp. 1931-1936).</span>
-                </li>
-                <li>
-                    <strong><a href="https://www.sciencedirect.com/science/article/pii/S0022247X21004911?casa_token=v7DxGAE5ng8AAAAA:lefbXXLNOSReKR9cQOAoaaBMgTAVcxQoL6R4QIFb-TJjJ4vyAhzvMWEXThVhi2NDMtb7C3giFQY" target="_blank">*Time fractional stochastic differential equation driven by pure jump Lévy noise</a></strong><br>
-                    <em>Peixue Wu, Zhiwei Yang, Hong Wang, Renming Song</em><br>
-                    <span>arXiv:2009.06866, Journal of Mathematical Analysis and Applications 504.2 (2021): 125412.</span>
-                </li>
-            </ol>
-        </section>
-        <section>
-            <h2>Ongoing Projects</h2>
-            <ul>
-                <li>
-                    <strong>Quantum Channel Capacities</strong><br>
-                    Investigating the additivity and superadditivity properties of quantum channel capacities in various quantum communication scenarios.
-                </li>
-                <li>
-                    <strong>Complexity related question</strong><br>
-                    Developing lower bounds for different complexity notions using quantum optimal transport approach.
-                </li>
-            </ul>
-        </section>
+  <div class="layout">
+    <!-- Left navigation sidebar (identical structure) -->
+    <aside class="sidebar">
+      <div class="brand">Link:</div>
+      <nav>
+        <ul>
+          <li><a href="index.html#home">Home</a></li>
+          <li><a class="active" href="research.html">Research</a></li>
+          <li><a href="teaching.html">Teaching</a></li>
+          <li><a href="talks.html">Recent talks</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Centered content column -->
+    <main class="content">
+      <h1>Research</h1>
+
+      <section>
+        <h2>Overview</h2>
+        <p>
+          My research focuses on quantum information theory, noncommutative analysis and probability theory. The highlight of my research consists of a deep mathematical understanding of open quantum systems and quantum communications.
+        </p>
+      </section>
+
+      <section>
+        <h2>Publications and preprints <small>(alphabetical authorship convention unless starred)</small></h2>
+        <ol>
+          <li>
+            <strong><a href="https://arxiv.org/abs/2506.04197" target="_blank" rel="noopener">Quantum capacity amplification via privacy</a></strong><br>
+            <em>Peixue Wu, Yunkai Wang</em><br>
+            <span>2025 IEEE International Symposium on Information Theory (ISIT), June 2025</span>
+          </li>
+          <li>
+            <strong><a href="https://arxiv.org/abs/2506.04197" target="_blank" rel="noopener">Transportation cost and contraction coefficient for channels on von Neumann algebras</a></strong><br>
+            <em>Roy Araiza, Marius Junge, Peixue Wu</em><br>
+            <span>arXiv:2506.04197, submitted, June 2025</span>
+          </li>
+          <li>
+            <strong><a href="https://arxiv.org/abs/2411.19890" target="_blank" rel="noopener">Reverse-type Data Processing Inequality</a></strong><br>
+            <em>Paula Belzig, Li Gao, Graeme Smith, Peixue Wu</em><br>
+            <span>arXiv:2411.19890, accepted at Communications in Mathematical Physics, 2025.</span>
+          </li>
+          <li>
+            <strong><a href="https://arxiv.org/abs/2409.03927" target="_blank" rel="noopener">Additivity of quantum capacities in simple non-degradable quantum channels</a></strong><br>
+            <em>Graeme Smith, Peixue Wu</em><br>
+            <span>arXiv:2409.03927, IEEE Transactions on Information Theory (Vol. 71, Issue 8, Aug. 2025).</span>
+          </li>
+          <li>
+            <strong><a href="https://link.springer.com/article/10.1007/s00220-025-05240-6" target="_blank" rel="noopener">Lower bound for simulation cost of open quantum systems: Lipschitz continuity approach</a></strong><br>
+            <em>Zhiyan Ding, Marius Junge, Philipp Schleich, Peixue Wu</em><br>
+            <span>arXiv:2407.15357, Communications in Mathematical Physics 406, no. 3 (2025): 60.</span>
+          </li>
+          <li>
+            <strong><a href="https://link.springer.com/article/10.1007/s11128-024-04291-3" target="_blank" rel="noopener">A note on the stabilizer formalism via noncommutative graphs</a></strong><br>
+            <em>Roy Araiza, Jihong Cai, Yushan Chen, Abraham Holtermann, Chieh Hsu, Tushar Mohan, Peixue Wu, Zeyuan Yu</em><br>
+            <span>arXiv:2310.00762, Quantum Information Processing 23.3 (2024): 84. February 2024</span>
+          </li>
+          <li>
+            <strong><a href="https://arxiv.org/abs/2303.11304" target="_blank" rel="noopener">Resource-Dependent Complexity of Quantum Channels</a></strong><br>
+            <em>Roy Araiza, Yidong Chen, Marius Junge, Peixue Wu</em><br>
+            <span>arXiv:2303.11304, accepted at Quantum, 2025.</span>
+          </li>
+          <li>
+            <strong><a href="https://arxiv.org/abs/2211.07527" target="_blank" rel="noopener">Stability property for the quantum jump operators of an open system</a></strong><br>
+            <em>Marius Junge, Peixue Wu</em><br>
+            <span>arXiv:2211.07527, in revision, November 2022</span>
+          </li>
+          <li>
+            <strong><a href="https://arxiv.org/abs/2203.03891" target="_blank" rel="noopener">Heat kernel estimates for regional fractional Laplacians with multi-singular critical potentials in C<sup>1,β</sup> open sets</a></strong><br>
+            <em>Renming Song, Peixue Wu, Shukun Wu</em><br>
+            <span>arXiv:2203.03891, Stochastic Processes and their Applications, 2025</span>
+          </li>
+          <li>
+            <strong><a href="https://ieeexplore.ieee.org/abstract/document/10206477" target="_blank" rel="noopener">*Quantum secret sharing and tripartite information</a></strong><br>
+            <em>Guangkuo Liu, Peixue Wu, Hanuel Kim, Marius Junge</em><br>
+            <span>arXiv:2012.08445, 2023 IEEE International Symposium on Information Theory (ISIT) (pp. 1931–1936).</span>
+          </li>
+          <li>
+            <strong><a href="https://www.sciencedirect.com/science/article/pii/S0022247X21004911" target="_blank" rel="noopener">*Time fractional stochastic differential equation driven by pure jump Lévy noise</a></strong><br>
+            <em>Peixue Wu, Zhiwei Yang, Hong Wang, Renming Song</em><br>
+            <span>arXiv:2009.06866, Journal of Mathematical Analysis and Applications 504.2 (2021): 125412.</span>
+          </li>
+        </ol>
+      </section>
+
+      <p style="margin-top:1.5rem;font-size:0.95rem;">
+        A full list of my research works can also be found on
+        <a href="https://arxiv.org/search/?query=Wu%2C+Peixue&searchtype=all&abstracts=show&order=-announced_date_first&size=50" target="_blank" rel="noopener">arXiv</a>.
+      </p>
     </main>
-    <footer>
-        <p>&copy; 2025 Peixue Wu. All rights reserved.</p>
-    </footer>
+  </div>
 </body>
 </html>
