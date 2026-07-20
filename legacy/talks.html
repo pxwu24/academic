@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Recent talks - Peixue Wu</title>
+
+  <!-- Same layout + styles as index/research/teaching pages -->
+  <style>
+    /* Reset-ish */
+    html, body { height: 100%; }
+    body { margin: 0; font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",Helvetica,"Noto Sans",sans-serif; color:#111; }
+
+    /* --- Page Layout (same as index.html) --- */
+    .layout {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 20px;
+    }
+
+    /* Left sidebar */
+    .sidebar { position: sticky; top: 20px; align-self: start; border-right: 1px solid #e8edf3; padding-right: 16px; }
+    .sidebar .brand { font-weight: 700; font-size: 1.1rem; margin: 0 0 8px; }
+    .sidebar nav ul { list-style: none; margin: 0; padding: 0; }
+    .sidebar nav li + li { margin-top: 8px; }
+    .sidebar a { text-decoration: none; color: #0b5bd3; display: block; }
+    .sidebar a:hover { text-decoration: underline; }
+    .sidebar a.active { font-weight: 600; }
+    /* Red arrows in the LEFT SIDEBAR (same format/location as Home/Research/Teaching) */
+    .sidebar nav li::before {
+      content: "►";
+      display: block;
+      float: left;
+      width: 1.2em;
+      color: #ff0000;
+    }
+
+    /* Center/narrow content column */
+    .content { max-width: 720px; margin: 0 auto; }
+    .content p { margin: 0 0 0.85rem; }
+    .content h1, .content h2 { margin: 0.2rem 0 0.8rem; font-weight: 700; }
+
+    /* Talks list style */
+    .talks { padding-left: 1.1em; }
+    .talks li { margin-bottom: 0.4rem; }
+
+    /* Make sure only the sidebar gets the red arrow bullets */
+    .content li::before { content: none; }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; border-right: 0; border-bottom: 1px solid #e8edf3; padding-bottom: 12px; margin-bottom: 16px; }
+      .sidebar nav ul { display: flex; gap: 14px; flex-wrap: wrap; }
+      .content { max-width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+    <!-- Left navigation sidebar (identical structure) -->
+    <aside class="sidebar">
+      <div class="brand">Link:</div>
+      <nav>
+        <ul>
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="research.html">Research</a></li>
+          <li><a href="teaching.html">Teaching</a></li>
+          <li><a class="active" href="talks.html">Recent talks</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Centered content column -->
+    <main class="content">
+      <h1>Recent talks</h1>
+
+      <section>
+        <ul class="talks">
+          <li><strong>Quantum capacity amplification via privacy</strong>, <em>ISIT 2025, Michigan, June 2025</em></li>
+          <li><strong>Additivity of quantum capacities in simple non-degradable quantum channels</strong>, <em>ISIT 2025, Michigan, June 2025</em></li>
+          <li><strong>Transportation cost and contraction coefficient for channels on von Neumann algebras</strong>, <em>Operator Algebra and Quantum Information (Vern Paulsen’s retirement), Waterloo, June 2025</em></li>
+          <li><strong>From noncommutative optimal transport to limitations of quantum simulation</strong>, <em>Noncommutative Optimal Transport Workshop II, UCLA, April 2025</em></li>
+          <li><strong>Lower bound for simulation cost of open quantum systems</strong>, <em>QIP 2025, Raleigh, February 2025</em></li>
+          <li><strong>Additivity of quantum capacities in simple non-degradable quantum channels</strong>, <em>IQC Math and CS Seminar, Waterloo, January 2025</em></li>
+          <li><strong>Reverse-type data processing inequality</strong>, <em>University of Illinois at Urbana-Champaign, November 2024</em></li>
+          <li><strong>Lower bound for gate complexity via quantum optimal transport</strong>, <em>UC Berkeley, November 2024</em></li>
+          <li><strong>Lower bound for simulation cost of quantum Markov semigroups</strong>, <em>Wuhan University, September 2024</em></li>
+          <li><strong>Additivity of quantum capacities in simple non-degradable quantum channels</strong>, <em>Beyond IID 2024, UIUC, August 2024</em></li>
+          <li><strong>Resource-Dependent Complexity of Quantum Channels</strong>, <em>Harbin Institute of Technology, November 2023</em></li>
+          <li><strong>Resource-Dependent Complexity of Quantum Channels</strong>, <em>Beyond IID 2023, University of Tübingen, August 2023</em></li>
+          <li><strong>Stability property of open quantum systems</strong>, <em>Michigan State University, March 2023</em></li>
+          <li><strong>Heat kernel estimates for non-local operators with multi-singular killing potential</strong>, <em>UW Madison Conference, September 2022</em></li>
+          <li><strong>Aspects of large deviation theory for open quantum systems</strong>, <em>Operator Algebra Seminar, UIUC, May 2022</em></li>
+          <li><strong>Stability property of open quantum systems</strong>, <em>World Quantum Days, UIUC Physics, April 2022</em></li>
+          <li><strong>Stability of complete entropic inequalities for quantum Markov semigroup</strong>, <em>AMS Spring Central Meeting, March 2022</em></li>
+          <li><strong>Non-local operators: heat kernel estimates with multi-singular killing potential</strong>, <em>Non-local Operators Workshop, February 2022</em></li>
+          <li><strong>Heat kernel estimates for non-local operators with multi-singular killing potential</strong>, <em>Frontier Probability Days, November 2021</em></li>
+          <li><strong>Intrinsic probability for quantum Markov semigroups</strong>, <em>Probability Seminar, UIUC, March 2021</em></li>
+          <li><strong>Quantum Secret Sharing and Tripartite Information</strong>, <em>Operator Algebra Seminar, UIUC, January 2021</em></li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

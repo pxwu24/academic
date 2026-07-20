@@ -1,172 +1,259 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/TR/REC-html40">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Research - Peixue Wu</title>
-
-  <!-- Same layout + styles as your main page -->
-  <style>
-    /* Reset-ish */
-    html, body { height: 100%; }
-    body { margin: 0; font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",Helvetica,"Noto Sans",sans-serif; color:#111; }
-
-    /* --- Page Layout (same as index.html) --- */
-    .layout {
-      display: grid;
-      grid-template-columns: 220px minmax(0, 1fr);
-      gap: 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 28px 20px;
-    }
-
-    /* Left sidebar */
-    .sidebar { position: sticky; top: 20px; align-self: start; border-right: 1px solid #e8edf3; padding-right: 16px; }
-    .sidebar .brand { font-weight: 700; font-size: 1.1rem; margin: 0 0 8px; }
-    .sidebar nav ul { list-style: none; margin: 0; padding: 0; }
-    .sidebar nav li + li { margin-top: 8px; }
-    .sidebar a { text-decoration: none; color: #0b5bd3; }
-    .sidebar a:hover { text-decoration: underline; }
-    .sidebar a.active { font-weight: 600; }
-
-    /* Red arrows in the LEFT SIDEBAR (same format/location as Home) */
-    .sidebar nav li::before {
-      content: "►";
-      display: block;
-      float: left;
-      width: 1.2em;
-      color: #ff0000;
-    }
-    .sidebar nav a { display: block; } /* ensures text lines up to the right of the arrow */
-
-    /* Center/narrow content column */
-    .content { max-width: 720px; margin: 0 auto; }
-    .content p { margin: 0 0 0.85rem; }
-    .content h1, .content h2 { margin: 0.2rem 0 0.8rem; font-weight: 700; }
-
-    /* Keep numbered lists normal inside main content (no arrows) */
-    .content ol { list-style: decimal; padding-left: 1.2em; }
-    .content ol li::before { content: none !important; }
-
-    /* Responsive */
-    @media (max-width: 800px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { position: static; border-right: 0; border-bottom: 1px solid #e8edf3; padding-bottom: 12px; margin-bottom: 16px; }
-      .sidebar nav ul { display: flex; gap: 14px; flex-wrap: wrap; }
-      .content { max-width: 100%; }
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Research publications and preprints by Peixue Wu.">
+  <title>Research &middot; Peixue Wu</title>
+  <link rel="stylesheet" href="assets/site.css">
 </head>
-
 <body>
-  <div class="layout">
-    <!-- Left navigation sidebar (identical structure) -->
-    <aside class="sidebar">
-      <div class="brand">Link:</div>
-      <nav>
-        <ul>
-          <li><a href="index.html#home">Home</a></li>
-          <li><a class="active" href="research.html">Research</a></li>
-          <li><a href="teaching.html">Teaching</a></li>
-          <li><a href="talks.html">Recent talks</a></li>
-        </ul>
+  <div class="site-shell">
+    <header class="topbar">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="index.html">
+          <strong>Peixue Wu</strong>
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="research.html" aria-current="page">Research</a>
+          <a href="teaching.html">Teaching</a>
+          <a href="talks.html">Recent talks</a>
+        </div>
       </nav>
-    </aside>
+    </header>
 
-    <!-- Centered content column -->
-    <main class="content">
-      <h1>Research</h1>
-
-      <section>
-        <h2>Overview</h2>
-        <p>
-          My research focuses on quantum information theory, noncommutative analysis and probability theory. The highlight of my research consists of a deep mathematical understanding of open quantum systems and quantum communications.
-        </p>
-      </section>
-       <p style="margin-top:1.5rem;font-size:0.95rem;">
-        A full list of my research works can be found on
-        <a href="https://arxiv.org/search/?query=Wu%2C+Peixue&searchtype=all&abstracts=show&order=-announced_date_first&size=50" target="_blank" rel="noopener">arXiv</a>.
-      </p>
-      <section>
-        <h2>Publications <small>(alphabetical authorship convention unless starred)</small></h2>
-        <ol>
-          <li>
-            <strong><a href="https://arxiv.org/abs/2411.19890" target="_blank" rel="noopener">Reverse-type Data Processing Inequality</a></strong><br>
-            <em>Paula Belzig, Li Gao, Graeme Smith, Peixue Wu</em><br>
-            <span>arXiv:2411.19890, Communications in Mathematical Physics 406, 295 (2025).</span>
-          </li>
-          <li>
-            <strong><a href="https://arxiv.org/abs/2409.03927" target="_blank" rel="noopener">Additivity of quantum capacities in simple non-degradable quantum channels</a></strong><br>
-            <em>Graeme Smith, Peixue Wu</em><br>
-            <span>arXiv:2409.03927, IEEE Transactions on Information Theory (Vol. 71, Issue 8, Aug. 2025).</span>
-          </li>
-          <li>
-            <strong><a href="https://link.springer.com/article/10.1007/s00220-025-05240-6" target="_blank" rel="noopener">Lower bound for simulation cost of open quantum systems: Lipschitz continuity approach</a></strong><br>
-            <em>Zhiyan Ding, Marius Junge, Philipp Schleich, Peixue Wu</em><br>
-            <span>arXiv:2407.15357, Communications in Mathematical Physics 406, no. 3 (2025): 60.</span>
-          </li>
-          <li>
-            <strong><a href="https://link.springer.com/article/10.1007/s11128-024-04291-3" target="_blank" rel="noopener">A note on the stabilizer formalism via noncommutative graphs</a></strong><br>
-            <em>Roy Araiza, Jihong Cai, Yushan Chen, Abraham Holtermann, Chieh Hsu, Tushar Mohan, Peixue Wu, Zeyuan Yu</em><br>
-            <span>arXiv:2310.00762, Quantum Information Processing 23.3 (2024): 84. February 2024</span>
-          </li>
-          <li>
-            <strong><a href="https://arxiv.org/abs/2303.11304" target="_blank" rel="noopener">Resource-Dependent Complexity of Quantum Channels</a></strong><br>
-            <em>Roy Araiza, Yidong Chen, Marius Junge, Peixue Wu</em><br>
-            <span>arXiv:2303.11304, Quantum 10, 1960 (2026).</span>
-          </li>
-          <li>
-            <strong><a href="https://arxiv.org/abs/2203.03891" target="_blank" rel="noopener">Heat kernel estimates for regional fractional Laplacians with multi-singular critical potentials in C<sup>1,β</sup> open sets</a></strong><br>
-            <em>Renming Song, Peixue Wu, Shukun Wu</em><br>
-            <span>arXiv:2203.03891, Stochastic Processes and their Applications, 104727 (2025)</span>
-          </li>
-          <li>
-            <strong><a href="https://ieeexplore.ieee.org/abstract/document/10206477" target="_blank" rel="noopener">*Quantum secret sharing and tripartite information</a></strong><br>
-            <em>Guangkuo Liu, Peixue Wu, Hanuel Kim, Marius Junge</em><br>
-            <span>arXiv:2012.08445, 2023 IEEE International Symposium on Information Theory (ISIT) (pp. 1931–1936).</span>
-          </li>
-          <li>
-            <strong><a href="https://www.sciencedirect.com/science/article/pii/S0022247X21004911" target="_blank" rel="noopener">*Time fractional stochastic differential equation driven by pure jump Lévy noise</a></strong><br>
-            <em>Peixue Wu, Zhiwei Yang, Hong Wang, Renming Song</em><br>
-            <span>arXiv:2009.06866, Journal of Mathematical Analysis and Applications 504.2 (2021): 125412.</span>
-          </li>
-        </ol>
+    <main>
+      <section class="page-hero">
+        <div class="page-title">
+          <p class="eyebrow">Preprints and publications</p>
+          <h1>Research</h1>
+          <p>
+            My research focuses on quantum information theory, noncommutative analysis, and probability theory, with a particular emphasis on open quantum systems and quantum communications.
+          </p>
+          <p class="authorship-note">Alphabetical authorship unless starred.</p>
+        </div>
       </section>
 
-        <section>
-        <h2>Preprints <small>(alphabetical authorship convention unless starred)</small></h2>
-        <ol>
-          <li>
-            <strong><a href="https://arxiv.org/abs/2510.06183" target="_blank" rel="noopener">Quantum $f$-divergences and Their Local Behaviour: An Analysis via Relative Expansion Coefficients</a></strong><br>
-            <em>Paula Belzig, Shreyas Iyer, Graeme Smith, Peixue Wu</em><br>
-            <span>arXiv:2510.06183, submitted, October 2025</span>
-          </li>
-          <li>
-            <strong><a href="https://arxiv.org/abs/2510.04527" target="_blank" rel="noopener">Quantum capacity amplification via privacy</a></strong><br>
-            <em>Peixue Wu, Yunkai Wang</em><br>
-            <span>arXiv:2510.04527, 2025 IEEE International Symposium on Information Theory (ISIT), June 2025</span>
-          </li>
-          <li>
-            <strong><a href="https://arxiv.org/abs/2506.04197" target="_blank" rel="noopener">Transportation cost and contraction coefficient for channels on von Neumann algebras</a></strong><br>
-            <em>Roy Araiza, Marius Junge, Peixue Wu</em><br>
-            <span>arXiv:2506.04197, submitted, June 2025</span>
-          </li>
-          <li>
-            <strong><a href="https://arxiv.org/abs/2211.07527" target="_blank" rel="noopener">Stability property for the quantum jump operators of an open system</a></strong><br>
-            <em>Marius Junge, Peixue Wu</em><br>
-            <span>arXiv:2211.07527, in revision, November 2022</span>
-          </li>
-          <li>
-            <strong><a href="https://arxiv.org/abs/2509.26574" target="_blank" rel="noopener">*Probing the Critical Point (CritPt) of AI Reasoning: a Frontier Physics Research Benchmark</a></strong><br>
-            <span class="tag">Artificial Intelligence Benchmark,</span><em>Minhui Zhu et al.</em>
-            <br>
-            <span>arXiv:2509.26574, September 2025</span>
-          </li>
-        </ol>
+      <section class="section tight">
+        <div class="research-banner research-banner-compact">
+          <div>
+            <p class="eyebrow">Current Work</p>
+            <h2>Preprints</h2>
+          </div>
+        </div>
       </section>
 
+      <section class="section tight">
+        <div class="research-group" data-page-size="5">
+          <div class="research-list">
+            <article class="publication research-paper">
+              <div class="pub-index">05</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2607.15210" target="_blank" rel="noopener">Counterexamples to additivity of minimum output p-R&eacute;nyi entropy of quantum channels for p&gt;3/4 and 0&le;p&lt;1/4</a></h2>
+                <p>with Debbie Leung and Benjamin Lovitz.</p>
+                <div class="pub-meta">arXiv:2607.15210, submitted July 2026.</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">04</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2606.16948" target="_blank" rel="noopener">The Optimal Rate Function in Covariant Quantum State Tomography</a></h2>
+                <p>with Arick Grootveld, Alexander Maloney, and Jason Pollack.</p>
+                <div class="pub-meta">arXiv:2606.16948, submitted June 2026.</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">03</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2603.23417" target="_blank" rel="noopener">Single-letter one-way distillable entanglement for non-degradable states</a></h2>
+                <p>with Rabsan Galib Ahmed and Graeme Smith.</p>
+                <div class="pub-meta">arXiv:2603.23417, submitted March 2026.</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">02</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2509.26574" target="_blank" rel="noopener">*Probing the Critical Point (CritPt) of AI Reasoning: a Frontier Physics Research Benchmark</a></h2>
+                <p>with Minhui Zhu et al.</p>
+                <div class="pub-meta">arXiv:2509.26574, submitted September 2025.</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">01</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2211.07527" target="_blank" rel="noopener">Stability property for the quantum jump operators of an open system</a></h2>
+                <p>with Marius Junge.</p>
+                <div class="pub-meta">arXiv:2211.07527, submitted November 2022.</div>
+              </div>
+            </article>
+          </div>
+
+          <button class="view-more" type="button">View more</button>
+        </div>
+      </section>
+
+      <section class="section tight">
+        <div class="research-banner research-banner-compact">
+          <div>
+            <p class="eyebrow">Published Work</p>
+            <h2>Publications</h2>
+          </div>
+        </div>
+      </section>
+
+      <section class="section tight">
+        <div class="research-group" data-page-size="5">
+          <div class="research-list">
+            <article class="publication research-paper">
+              <div class="pub-index">11</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2510.06183" target="_blank" rel="noopener">Quantum f-divergences and Their Local Behaviour: An Analysis via Relative Expansion Coefficients</a></h2>
+                <p>with Shreyas Iyer, Paula Belzig, and Graeme Smith.</p>
+                <div class="pub-meta">To appear in 2026 IEEE International Symposium on Information Theory (ISIT).</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">10</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2506.04197" target="_blank" rel="noopener">Transportation cost and contraction coefficient for channels on von Neumann algebras</a></h2>
+                <p>with Roy Araiza and Marius Junge.</p>
+                <div class="pub-meta">To appear in Journal of Functional Analysis.</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">09</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2303.11304" target="_blank" rel="noopener">Resource-Dependent Complexity of Quantum Channels</a></h2>
+                <p>with Roy Araiza, Yidong Chen, and Marius Junge.</p>
+                <div class="pub-meta">Quantum 10, 1960 (2026).</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">08</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2411.19890" target="_blank" rel="noopener">Reverse-type Data Processing Inequality</a></h2>
+                <p>with Paula Belzig, Li Gao, and Graeme Smith.</p>
+                <div class="pub-meta">Communications in Mathematical Physics 406, 295 (2025).</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">07</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2203.03891" target="_blank" rel="noopener">Heat kernel estimates for regional fractional Laplacians with multi-singular critical potentials in C<sup>1,&beta;</sup> open sets</a></h2>
+                <p>with Renming Song and Shukun Wu.</p>
+                <div class="pub-meta">Stochastic Processes and their Applications, Volume 189, November 2025, 104727.</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">06</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2409.03927" target="_blank" rel="noopener">Additivity of quantum capacities in simple non-degradable quantum channels</a></h2>
+                <p>with Graeme Smith.</p>
+                <div class="pub-meta">IEEE Transactions on Information Theory, Vol. 71, Issue 8 (2025).</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">05</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2510.04527" target="_blank" rel="noopener">Quantum capacity amplification via privacy</a></h2>
+                <p>with Yunkai Wang.</p>
+                <div class="pub-meta">2025 IEEE International Symposium on Information Theory (ISIT), pp. 1976-1981. Extended version: arXiv:2510.04527.</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">04</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2407.15357" target="_blank" rel="noopener">Lower bound for simulation cost of open quantum systems: Lipschitz continuity approach</a></h2>
+                <p>with Zhiyan Ding, Marius Junge, and Philipp Schleich.</p>
+                <div class="pub-meta">Communications in Mathematical Physics 406, no. 3 (2025): 60.</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">03</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2310.00762" target="_blank" rel="noopener">A note on the stabilizer formalism via noncommutative graphs</a></h2>
+                <p>with Roy Araiza, Jihong Cai, Yushan Chen, Abraham Holtermann, Chieh Hsu, Tushar Mohan, and Zeyuan Yu.</p>
+                <div class="pub-meta">Quantum Information Processing 23, 84 (2024).</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">02</div>
+              <div>
+                <h2><a href="https://ieeexplore.ieee.org/abstract/document/10206477" target="_blank" rel="noopener">*Quantum secret sharing and tripartite information</a></h2>
+                <p>with Marius Junge, Chloe Kim, and Guangkuo Liu.</p>
+                <div class="pub-meta">2023 IEEE International Symposium on Information Theory (ISIT), pp. 1931-1936.</div>
+              </div>
+            </article>
+
+            <article class="publication research-paper">
+              <div class="pub-index">01</div>
+              <div>
+                <h2><a href="https://arxiv.org/abs/2009.06866" target="_blank" rel="noopener">*Time fractional stochastic differential equations driven by pure jump L&eacute;vy noise</a></h2>
+                <p>with Zhiwei Yang, Hong Wang, and Renming Song.</p>
+                <div class="pub-meta">Journal of Mathematical Analysis and Applications 503 (2021): 125412.</div>
+              </div>
+            </article>
+          </div>
+
+          <button class="view-more" type="button">View more</button>
+        </div>
+      </section>
     </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <span>&copy; Peixue Wu</span>
+        <span><a href="index.html">Home</a> &middot; <a href="teaching.html">Teaching</a> &middot; <a href="talks.html">Recent talks</a></span>
+      </div>
+    </footer>
   </div>
+
+  <script>
+    document.querySelectorAll("[data-page-size]").forEach((group) => {
+      const pageSize = Number(group.dataset.pageSize || 5);
+      const items = Array.from(group.querySelectorAll(".publication"));
+      const button = group.querySelector(".view-more");
+      let expanded = false;
+
+      function render() {
+        const visible = expanded ? items.length : pageSize;
+
+        items.forEach((item, index) => {
+          item.classList.toggle("is-hidden", index >= visible);
+        });
+
+        if (!button || items.length <= pageSize) {
+          if (button) button.hidden = true;
+          return;
+        }
+
+        button.hidden = false;
+        button.textContent = expanded ? "View less" : "View more";
+      }
+
+      if (button) {
+        button.addEventListener("click", () => {
+          expanded = !expanded;
+          render();
+        });
+      }
+
+      render();
+    });
+  </script>
 </body>
 </html>

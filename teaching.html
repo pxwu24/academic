@@ -1,105 +1,91 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/TR/REC-html40">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Teaching - Peixue Wu</title>
-
-  <!-- Same layout + styles as research/index pages -->
-  <style>
-    /* Reset-ish */
-    html, body { height: 100%; }
-    body { margin: 0; font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",Helvetica,"Noto Sans",sans-serif; color:#111; }
-
-    /* --- Page Layout (same as index.html) --- */
-    .layout {
-      display: grid;
-      grid-template-columns: 220px minmax(0, 1fr);
-      gap: 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 28px 20px;
-    }
-
-    /* Left sidebar */
-    .sidebar { position: sticky; top: 20px; align-self: start; border-right: 1px solid #e8edf3; padding-right: 16px; }
-    .sidebar .brand { font-weight: 700; font-size: 1.1rem; margin: 0 0 8px; }
-    .sidebar nav ul { list-style: none; margin: 0; padding: 0; }
-    .sidebar nav li + li { margin-top: 8px; }
-    .sidebar a { text-decoration: none; color: #0b5bd3; }
-    .sidebar a:hover { text-decoration: underline; }
-    .sidebar a.active { font-weight: 600; }
-
-    /* Red arrows in the LEFT SIDEBAR (same format/location as Home/Research) */
-    .sidebar nav li::before {
-      content: "►";
-      display: block;
-      float: left;
-      width: 1.2em;
-      color: #ff0000;
-    }
-    .sidebar nav a { display: block; }
-
-    /* Center/narrow content column */
-    .content { max-width: 720px; margin: 0 auto; }
-    .content p { margin: 0 0 0.85rem; }
-    .content h1, .content h2 { margin: 0.2rem 0 0.8rem; font-weight: 700; }
-
-    /* Keep numbered lists normal inside main content (no arrows) */
-    .content ol { list-style: decimal; padding-left: 1.2em; }
-    .content ol li::before { content: none !important; }
-
-    /* Responsive */
-    @media (max-width: 800px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { position: static; border-right: 0; border-bottom: 1px solid #e8edf3; padding-bottom: 12px; margin-bottom: 16px; }
-      .sidebar nav ul { display: flex; gap: 14px; flex-wrap: wrap; }
-      .content { max-width: 100%; }
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Teaching by Peixue Wu.">
+  <title>Teaching &middot; Peixue Wu</title>
+  <link rel="stylesheet" href="assets/site.css">
 </head>
-
 <body>
-  <div class="layout">
-    <!-- Left navigation sidebar (identical structure) -->
-    <aside class="sidebar">
-      <div class="brand">Link:</div>
-      <nav>
-        <ul>
-          <li><a href="index.html#home">Home</a></li>
-          <li><a href="research.html">Research</a></li>
-          <li><a class="active" href="teaching.html">Teaching</a></li>
-          <li><a href="talks.html">Recent talks</a></li>
-        </ul>
+  <div class="site-shell">
+    <header class="topbar">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="index.html">
+          <strong>Peixue Wu</strong>
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="research.html">Research</a>
+          <a href="teaching.html" aria-current="page">Teaching</a>
+          <a href="talks.html">Recent talks</a>
+        </div>
       </nav>
-    </aside>
+    </header>
 
-    <!-- Centered content column -->
-    <main class="content">
-      <h1>Teaching</h1>
+    <main>
+      <section class="page-hero">
+        <div class="page-title">
+          <h1>Teaching</h1>
+        </div>
+      </section>
 
-      <section>
-        <h2>Courses</h2>
-        <ol>
-          <li>
-            <a href="https://peixue-wu.github.io/2024math237/">Math 237: Calculus 3 for Honours Mathematics</a>,
-            Summer 2024, at University of Waterloo (146 students).
-          </li>
-          <li>
-            MATH 231 Calculus II, recitations, Fall 2020 at University of Illinois at Urbana–Champaign.
-          </li>
-          <li>
-            MATH 220 Calculus I, recitations, Spring 2021 at University of Illinois at Urbana–Champaign.
-          </li>
-          <li>
-            MATH 220 Calculus I, recitations, Fall 2021 at University of Illinois at Urbana–Champaign.
-          </li>
-          <li>
-            MATH 241 Calculus III, recitations, Spring 2022 at University of Illinois at Urbana–Champaign.
-          </li>
-        </ol>
+      <section class="section tight">
+        <div class="research-list">
+          <article class="publication">
+            <div class="pub-index term-index">Summer<br>2024</div>
+            <div>
+              <h2><a href="https://peixue-wu.github.io/2024math237/" target="_blank" rel="noopener">Math 237: Calculus 3 for Honours Mathematics</a></h2>
+              <p>University of Waterloo.</p>
+              <div class="pub-meta">Instructor, 146 students.</div>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Spring<br>2022</div>
+            <div>
+              <h2>MATH 241 Calculus III</h2>
+              <p>University of Illinois Urbana-Champaign.</p>
+              <div class="pub-meta">Recitations.</div>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Fall<br>2021</div>
+            <div>
+              <h2>MATH 220 Calculus I</h2>
+              <p>University of Illinois Urbana-Champaign.</p>
+              <div class="pub-meta">Recitations.</div>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Spring<br>2021</div>
+            <div>
+              <h2>MATH 220 Calculus I</h2>
+              <p>University of Illinois Urbana-Champaign.</p>
+              <div class="pub-meta">Recitations.</div>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Fall<br>2020</div>
+            <div>
+              <h2>MATH 231 Calculus II</h2>
+              <p>University of Illinois Urbana-Champaign.</p>
+              <div class="pub-meta">Recitations.</div>
+            </div>
+          </article>
+        </div>
       </section>
     </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <span>&copy; Peixue Wu</span>
+        <span><a href="index.html">Home</a> &middot; <a href="research.html">Research</a> &middot; <a href="talks.html">Recent talks</a></span>
+      </div>
+    </footer>
   </div>
 </body>
 </html>

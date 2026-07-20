@@ -1,110 +1,264 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/TR/REC-html40">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Recent talks - Peixue Wu</title>
-
-  <!-- Same layout + styles as index/research/teaching pages -->
-  <style>
-    /* Reset-ish */
-    html, body { height: 100%; }
-    body { margin: 0; font: 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Arial,"Helvetica Neue",Helvetica,"Noto Sans",sans-serif; color:#111; }
-
-    /* --- Page Layout (same as index.html) --- */
-    .layout {
-      display: grid;
-      grid-template-columns: 220px minmax(0, 1fr);
-      gap: 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 28px 20px;
-    }
-
-    /* Left sidebar */
-    .sidebar { position: sticky; top: 20px; align-self: start; border-right: 1px solid #e8edf3; padding-right: 16px; }
-    .sidebar .brand { font-weight: 700; font-size: 1.1rem; margin: 0 0 8px; }
-    .sidebar nav ul { list-style: none; margin: 0; padding: 0; }
-    .sidebar nav li + li { margin-top: 8px; }
-    .sidebar a { text-decoration: none; color: #0b5bd3; display: block; }
-    .sidebar a:hover { text-decoration: underline; }
-    .sidebar a.active { font-weight: 600; }
-    /* Red arrows in the LEFT SIDEBAR (same format/location as Home/Research/Teaching) */
-    .sidebar nav li::before {
-      content: "►";
-      display: block;
-      float: left;
-      width: 1.2em;
-      color: #ff0000;
-    }
-
-    /* Center/narrow content column */
-    .content { max-width: 720px; margin: 0 auto; }
-    .content p { margin: 0 0 0.85rem; }
-    .content h1, .content h2 { margin: 0.2rem 0 0.8rem; font-weight: 700; }
-
-    /* Talks list style */
-    .talks { padding-left: 1.1em; }
-    .talks li { margin-bottom: 0.4rem; }
-
-    /* Make sure only the sidebar gets the red arrow bullets */
-    .content li::before { content: none; }
-
-    /* Responsive */
-    @media (max-width: 800px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { position: static; border-right: 0; border-bottom: 1px solid #e8edf3; padding-bottom: 12px; margin-bottom: 16px; }
-      .sidebar nav ul { display: flex; gap: 14px; flex-wrap: wrap; }
-      .content { max-width: 100%; }
-    }
-  </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Recent talks by Peixue Wu.">
+  <title>Recent Talks &middot; Peixue Wu</title>
+  <link rel="stylesheet" href="assets/site.css">
 </head>
-
 <body>
-  <div class="layout">
-    <!-- Left navigation sidebar (identical structure) -->
-    <aside class="sidebar">
-      <div class="brand">Link:</div>
-      <nav>
-        <ul>
-          <li><a href="index.html#home">Home</a></li>
-          <li><a href="research.html">Research</a></li>
-          <li><a href="teaching.html">Teaching</a></li>
-          <li><a class="active" href="talks.html">Recent talks</a></li>
-        </ul>
+  <div class="site-shell">
+    <header class="topbar">
+      <nav class="nav" aria-label="Main navigation">
+        <a class="brand" href="index.html">
+          <strong>Peixue Wu</strong>
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="research.html">Research</a>
+          <a href="teaching.html">Teaching</a>
+          <a href="talks.html" aria-current="page">Recent talks</a>
+        </div>
       </nav>
-    </aside>
+    </header>
 
-    <!-- Centered content column -->
-    <main class="content">
-      <h1>Recent talks</h1>
+    <main>
+      <section class="page-hero">
+        <div class="page-title">
+          <p class="eyebrow">Seminars and conferences</p>
+          <h1>Recent Talks</h1>
+          <p>
+            A selection of recent conference talks, seminar presentations, and workshop lectures.
+          </p>
+        </div>
+      </section>
 
-      <section>
-        <ul class="talks">
-          <li><strong>Quantum capacity amplification via privacy</strong>, <em>ISIT 2025, Michigan, June 2025</em></li>
-          <li><strong>Additivity of quantum capacities in simple non-degradable quantum channels</strong>, <em>ISIT 2025, Michigan, June 2025</em></li>
-          <li><strong>Transportation cost and contraction coefficient for channels on von Neumann algebras</strong>, <em>Operator Algebra and Quantum Information (Vern Paulsen’s retirement), Waterloo, June 2025</em></li>
-          <li><strong>From noncommutative optimal transport to limitations of quantum simulation</strong>, <em>Noncommutative Optimal Transport Workshop II, UCLA, April 2025</em></li>
-          <li><strong>Lower bound for simulation cost of open quantum systems</strong>, <em>QIP 2025, Raleigh, February 2025</em></li>
-          <li><strong>Additivity of quantum capacities in simple non-degradable quantum channels</strong>, <em>IQC Math and CS Seminar, Waterloo, January 2025</em></li>
-          <li><strong>Reverse-type data processing inequality</strong>, <em>University of Illinois at Urbana-Champaign, November 2024</em></li>
-          <li><strong>Lower bound for gate complexity via quantum optimal transport</strong>, <em>UC Berkeley, November 2024</em></li>
-          <li><strong>Lower bound for simulation cost of quantum Markov semigroups</strong>, <em>Wuhan University, September 2024</em></li>
-          <li><strong>Additivity of quantum capacities in simple non-degradable quantum channels</strong>, <em>Beyond IID 2024, UIUC, August 2024</em></li>
-          <li><strong>Resource-Dependent Complexity of Quantum Channels</strong>, <em>Harbin Institute of Technology, November 2023</em></li>
-          <li><strong>Resource-Dependent Complexity of Quantum Channels</strong>, <em>Beyond IID 2023, University of Tübingen, August 2023</em></li>
-          <li><strong>Stability property of open quantum systems</strong>, <em>Michigan State University, March 2023</em></li>
-          <li><strong>Heat kernel estimates for non-local operators with multi-singular killing potential</strong>, <em>UW Madison Conference, September 2022</em></li>
-          <li><strong>Aspects of large deviation theory for open quantum systems</strong>, <em>Operator Algebra Seminar, UIUC, May 2022</em></li>
-          <li><strong>Stability property of open quantum systems</strong>, <em>World Quantum Days, UIUC Physics, April 2022</em></li>
-          <li><strong>Stability of complete entropic inequalities for quantum Markov semigroup</strong>, <em>AMS Spring Central Meeting, March 2022</em></li>
-          <li><strong>Non-local operators: heat kernel estimates with multi-singular killing potential</strong>, <em>Non-local Operators Workshop, February 2022</em></li>
-          <li><strong>Heat kernel estimates for non-local operators with multi-singular killing potential</strong>, <em>Frontier Probability Days, November 2021</em></li>
-          <li><strong>Intrinsic probability for quantum Markov semigroups</strong>, <em>Probability Seminar, UIUC, March 2021</em></li>
-          <li><strong>Quantum Secret Sharing and Tripartite Information</strong>, <em>Operator Algebra Seminar, UIUC, January 2021</em></li>
-        </ul>
+      <section class="section tight">
+        <div class="research-group" data-page-size="5">
+          <div class="research-list">
+          <article class="publication">
+            <div class="pub-index term-index">Jul<br>2026</div>
+            <div>
+              <h2>Projection-induced channels and additivity violation of minimum output entropy</h2>
+              <p>Additivity Problems in Quantum and Classical Information Theory, BIRS, Banff. <a href="slides/Slides_BIRS.pdf" target="_blank" rel="noopener">Slides</a> &middot; <a href="https://www.birs.ca/events/2026/5-day-workshops/26w5621/videos/watch/202607141513-Wu.html" target="_blank" rel="noopener">Video</a></p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Jun<br>2025</div>
+            <div>
+              <h2>Quantum capacity amplification via privacy</h2>
+              <p>ISIT 2025, Michigan. <a href="slides/Quantum_capacity_amplification_via_Privacy.pptx" target="_blank" rel="noopener">Slides</a></p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Jun<br>2025</div>
+            <div>
+              <h2>Additivity of quantum capacities in simple non-degradable quantum channels</h2>
+              <p>ISIT 2025, Michigan. <a href="slides/Additivity_of_quantum_capacities_in_simple_non-degradable_quantum.pptx" target="_blank" rel="noopener">Slides</a></p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Jun<br>2025</div>
+            <div>
+              <h2>Transportation cost and contraction coefficient for channels on von Neumann algebras</h2>
+              <p>Operator Algebra and Quantum Information, Vern Paulsen's retirement, Waterloo. <a href="slides/transportation_cost.pptx" target="_blank" rel="noopener">Slides</a></p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Apr<br>2025</div>
+            <div>
+              <h2>From noncommutative optimal transport to limitations of quantum simulation</h2>
+              <p>Noncommutative Optimal Transport Workshop II, UCLA. <a href="https://www.youtube.com/watch?v=5Xhm7906s0A" target="_blank" rel="noopener">Video</a></p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Feb<br>2025</div>
+            <div>
+              <h2>Lower bound for simulation cost of open quantum systems</h2>
+              <p>QIP 2025, Raleigh. <a href="slides/qip.pptx" target="_blank" rel="noopener">Slides</a></p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Jan<br>2025</div>
+            <div>
+              <h2>Additivity of quantum capacities in simple non-degradable quantum channels</h2>
+              <p>IQC Math and CS Seminar, Waterloo.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Nov<br>2024</div>
+            <div>
+              <h2>Reverse-type data processing inequality</h2>
+              <p>University of Illinois Urbana-Champaign.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Nov<br>2024</div>
+            <div>
+              <h2>Lower bound for gate complexity via quantum optimal transport</h2>
+              <p>UC Berkeley.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Sep<br>2024</div>
+            <div>
+              <h2>Lower bound for simulation cost of quantum Markov semigroups</h2>
+              <p>Wuhan University.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Aug<br>2024</div>
+            <div>
+              <h2>Additivity of quantum capacities in simple non-degradable quantum channels</h2>
+              <p>Beyond IID 2024, UIUC.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Nov<br>2023</div>
+            <div>
+              <h2>Resource-Dependent Complexity of Quantum Channels</h2>
+              <p>Harbin Institute of Technology.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Aug<br>2023</div>
+            <div>
+              <h2>Resource-Dependent Complexity of Quantum Channels</h2>
+              <p>Beyond IID 2023, University of T&uuml;bingen.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Mar<br>2023</div>
+            <div>
+              <h2>Stability property of open quantum systems</h2>
+              <p>Michigan State University.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Sep<br>2022</div>
+            <div>
+              <h2>Heat kernel estimates for non-local operators with multi-singular killing potential</h2>
+              <p>UW Madison Conference.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">May<br>2022</div>
+            <div>
+              <h2>Aspects of large deviation theory for open quantum systems</h2>
+              <p>Operator Algebra Seminar, UIUC.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Apr<br>2022</div>
+            <div>
+              <h2>Stability property of open quantum systems</h2>
+              <p>World Quantum Days, UIUC Physics.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Mar<br>2022</div>
+            <div>
+              <h2>Stability of complete entropic inequalities for quantum Markov semigroup</h2>
+              <p>AMS Spring Central Meeting.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Feb<br>2022</div>
+            <div>
+              <h2>Non-local operators: heat kernel estimates with multi-singular killing potential</h2>
+              <p>Non-local Operators Workshop.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Nov<br>2021</div>
+            <div>
+              <h2>Heat kernel estimates for non-local operators with multi-singular killing potential</h2>
+              <p>Frontier Probability Days.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Mar<br>2021</div>
+            <div>
+              <h2>Intrinsic probability for quantum Markov semigroups</h2>
+              <p>Probability Seminar, UIUC.</p>
+            </div>
+          </article>
+
+          <article class="publication">
+            <div class="pub-index term-index">Jan<br>2021</div>
+            <div>
+              <h2>Quantum Secret Sharing and Tripartite Information</h2>
+              <p>Operator Algebra Seminar, UIUC.</p>
+            </div>
+          </article>
+          </div>
+
+          <button class="view-more" type="button">View more</button>
+        </div>
       </section>
     </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <span>&copy; Peixue Wu</span>
+        <span><a href="index.html">Home</a> &middot; <a href="research.html">Research</a> &middot; <a href="teaching.html">Teaching</a></span>
+      </div>
+    </footer>
   </div>
+
+  <script>
+    document.querySelectorAll("[data-page-size]").forEach((group) => {
+      const pageSize = Number(group.dataset.pageSize || 5);
+      const items = Array.from(group.querySelectorAll(".publication"));
+      const button = group.querySelector(".view-more");
+      let expanded = false;
+
+      function render() {
+        const visible = expanded ? items.length : pageSize;
+
+        items.forEach((item, index) => {
+          item.classList.toggle("is-hidden", index >= visible);
+        });
+
+        if (!button || items.length <= pageSize) {
+          if (button) button.hidden = true;
+          return;
+        }
+
+        button.hidden = false;
+        button.textContent = expanded ? "View less" : "View more";
+      }
+
+      if (button) {
+        button.addEventListener("click", () => {
+          expanded = !expanded;
+          render();
+        });
+      }
+
+      render();
+    });
+  </script>
 </body>
 </html>
