@@ -161,7 +161,7 @@
   width: min(1180px, calc(100% - 40px));
   margin: -42px auto 0;
   display: grid;
-  grid-template-columns: .6fr 1.35fr .9fr .8fr;
+  grid-template-columns: .7fr 1.75fr .8fr .8fr;
   background: #fff;
   border: 1px solid var(--course-line);
   border-radius: 12px;
@@ -171,6 +171,9 @@
 .course-facts article:last-child { border-right: 0; }
 .course-facts span { display: block; color: #6c7b88; font-size: .74rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
 .course-facts strong { display: block; margin-top: 7px; color: var(--su-blue); font-size: 1.02rem; }
+.meeting-list { margin-top: 7px; display: grid; gap: 5px; }
+.meeting-list strong { margin-top: 0; font-size: .95rem; }
+.meeting-list b { display: inline-block; min-width: 48px; color: var(--su-orange); font-size: .76rem; letter-spacing: .05em; }
 
 .course-section { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 104px 0; }
 .course-section .section-label { color: var(--su-orange); }
