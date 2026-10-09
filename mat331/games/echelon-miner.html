@@ -1,1 +1,2004 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Echelon Miner: an interactive Gaussian-elimination game for MAT 331."><meta name="theme-color" content="#07121c"><title>Echelon Miner · MAT 331</title><style>html,body{min-height:100%;margin:0}body{display:grid;place-items:center;background:linear-gradient(145deg,#07121c,#112434);color:#f8f4e6;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}.loading{max-width:520px;padding:38px;text-align:center}.pick{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 18px;border-radius:19px;color:#251a03;background:#f4c642;font-size:34px;box-shadow:0 15px 34px rgba(244,198,66,.25)}h1{margin:0;font-size:clamp(28px,5vw,44px)}p{color:#b9c5ce;line-height:1.6}.bar{height:7px;margin-top:24px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.09)}.bar:after{content:"";display:block;width:42%;height:100%;border-radius:inherit;background:#63dce6;animation:load 1s ease-in-out infinite alternate}@keyframes load{to{transform:translateX(140%)}}</style></head><body><main class="loading" id="loadingStatus"><div class="pick" aria-hidden="true">⛏</div><h1>Echelon Miner</h1><p>Loading the interactive matrix mine…</p><div class="bar" aria-hidden="true"></div></main><script>window.__EM_PAYLOAD=[];</script><script src="echelon-miner/payload-1.js"></script><script src="echelon-miner/payload-2.js"></script><script src="echelon-miner/payload-3.js"></script><script src="echelon-miner/payload-4.js"></script><script src="echelon-miner/payload-5.js"></script><script src="echelon-miner/payload-6.js"></script><script>(async()=>{try{const encoded=window.__EM_PAYLOAD.join("");const compressed=Uint8Array.from(atob(encoded),c=>c.charCodeAt(0));const stream=new Blob([compressed]).stream().pipeThrough(new DecompressionStream("gzip"));const html=await new Response(stream).text();document.open();document.write(html);document.close()}catch(error){const status=document.getElementById("loadingStatus");status.innerHTML='<div class="pick" aria-hidden="true">!</div><h1>Unable to load the game</h1><p>Please open this page in a current version of Chrome, Edge, Firefox, or Safari.</p>';console.error(error)}})();</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Echelon Miner: practice row reduction to echelon form and reduced echelon form, and find a matrix inverse by row reducing [A | I]. MAT 331, Syracuse University.">
+<title>Echelon Miner · MAT 331</title>
+<style>
+  :root {
+    --ink: #18201f;
+    --muted: #545f5c;
+    --paper: #f6f1e7;
+    --card: #fffdf8;
+    --line: rgba(24, 32, 31, 0.14);
+    --field: rgba(24, 32, 31, 0.5);
+    --teal: #2f928b;
+    --teal-dark: #17635f;
+    --teal-soft: rgba(47, 146, 139, 0.14);
+    --gold: #d99b39;
+    --gold-soft: rgba(217, 155, 57, 0.2);
+    --red: #a0402f;
+    --red-soft: rgba(182, 75, 63, 0.11);
+    --green: #276b43;
+    --green-soft: rgba(47, 125, 79, 0.11);
+    --night: #0d1414;
+    --row-h: 3rem;
+    --mfs: 1.25rem;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    color: var(--ink);
+    background: var(--paper);
+    font: 16px/1.55 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+
+  button, input, select, textarea { font: inherit; color: inherit; }
+
+  :focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+
+  sup { line-height: 0; }
+
+  sub { font-size: 0.72em; }
+
+  .nowrap { white-space: nowrap; }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Header */
+
+  .topbar { color: #fffaf1; background: var(--night); }
+
+  .topbar-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .brand { display: flex; align-items: center; gap: 10px; margin: 0; font: 700 1.3rem/1.2 Georgia, "Times New Roman", serif; }
+
+  .logo {
+    width: 32px;
+    height: 32px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    color: var(--night);
+    background: #f0c877;
+    border-radius: 50%;
+    font-size: 1rem;
+  }
+
+  .tagline { color: rgba(255, 250, 241, 0.7); font-size: 0.92rem; }
+
+  .back {
+    margin-left: auto;
+    padding: 6px 12px;
+    color: rgba(255, 250, 241, 0.85);
+    border-radius: 999px;
+    font-size: 0.92rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .back:hover { color: #fffaf1; background: rgba(255, 250, 241, 0.12); }
+
+  /* Page */
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 24px 20px 56px; }
+
+  .modes {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    background: rgba(24, 32, 31, 0.07);
+    border-radius: 14px;
+  }
+
+  .modes button {
+    padding: 9px 16px;
+    color: var(--muted);
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+    font-weight: 650;
+    cursor: pointer;
+  }
+
+  .modes button:hover { color: var(--ink); }
+
+  .modes button[aria-selected="true"] {
+    color: var(--ink);
+    background: var(--card);
+    box-shadow: 0 1px 4px rgba(24, 32, 31, 0.16);
+  }
+
+  .modes .short { display: none; }
+
+  .goal { max-width: 780px; margin: 14px 0 20px; font-size: 1.05rem; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .card {
+    min-width: 0;
+    padding: 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(24, 32, 31, 0.06);
+  }
+
+  .side { display: grid; gap: 20px; min-width: 0; }
+
+  h2 { margin: 0; font-size: 1.05rem; line-height: 1.3; }
+
+  /* Problem bar */
+
+  .problem-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+
+  .problem-bar label { font-weight: 650; }
+
+  select, input[type="text"], textarea {
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid var(--field);
+    border-radius: 8px;
+  }
+
+  select { cursor: pointer; }
+
+  #problemSelect { flex: 1 1 220px; width: 100%; min-width: 0; max-width: 360px; }
+
+  .btn {
+    min-height: 42px;
+    padding: 9px 16px;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid rgba(24, 32, 31, 0.3);
+    border-radius: 999px;
+    font-weight: 650;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+
+  .btn[hidden] { display: none; }
+
+  .btn:hover:not([aria-disabled="true"]) { border-color: var(--teal-dark); }
+
+  .btn.primary { color: #fff; background: var(--teal-dark); border-color: var(--teal-dark); }
+
+  .btn.primary:hover:not([aria-disabled="true"]) { background: #0f4f4b; }
+
+  .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* Custom matrix */
+
+  .custom {
+    margin-top: 14px;
+    padding: 14px;
+    background: #fff;
+    border: 1px dashed var(--field);
+    border-radius: 10px;
+  }
+
+  .custom[hidden] { display: none; }
+
+  .custom p { margin: 0 0 8px; color: var(--muted); font-size: 0.95rem; }
+
+  .custom textarea {
+    width: 100%;
+    min-height: 110px;
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    resize: vertical;
+  }
+
+  .check-label { display: flex; align-items: center; gap: 8px; margin: 10px 0 0; font-size: 0.95rem; cursor: pointer; }
+
+  .check-label[hidden] { display: none; }
+
+  .form-error { min-height: 1.4em; margin: 8px 0; color: var(--red); font-size: 0.95rem; }
+
+  /* Matrix */
+
+  .caption { margin: 18px 0 0; color: var(--muted); font-size: 0.9rem; text-align: center; }
+
+  .caption:empty { display: none; }
+
+  .matrix-area {
+    margin-top: 4px;
+    padding: 8px 8px 10px;
+    overflow-x: auto;
+    background:
+      linear-gradient(to right, var(--card) 30%, rgba(255, 253, 248, 0)) left / 32px 100% no-repeat local,
+      linear-gradient(to left, var(--card) 30%, rgba(255, 253, 248, 0)) right / 32px 100% no-repeat local,
+      radial-gradient(farthest-side at 0 50%, rgba(24, 32, 31, 0.22), transparent) left / 12px 100% no-repeat scroll,
+      radial-gradient(farthest-side at 100% 50%, rgba(24, 32, 31, 0.22), transparent) right / 12px 100% no-repeat scroll;
+  }
+
+  .matrix-box { width: max-content; margin: 0 auto; display: flex; align-items: stretch; gap: 6px; }
+
+  .matrix-box:focus-visible { outline-offset: 3px; border-radius: 6px; }
+
+  .row-labels { display: grid; grid-auto-rows: var(--row-h); padding: 4px 0; }
+
+  .row-label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 6px 0 9px;
+    color: var(--muted);
+    border-radius: 6px 0 0 6px;
+    font-size: 0.9rem;
+    font-weight: 650;
+  }
+
+  .bracket { position: relative; padding: 4px 10px; }
+
+  .bracket::before,
+  .bracket::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 9px;
+    border: 2px solid var(--ink);
+  }
+
+  .bracket::before { left: 0; border-right: 0; border-radius: 4px 0 0 4px; }
+
+  .bracket::after { right: 0; border-left: 0; border-radius: 0 4px 4px 0; }
+
+  .grid { display: grid; grid-auto-rows: var(--row-h); }
+
+  .cell {
+    min-width: 3.1rem;
+    padding: 0 0.45rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--mfs);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .cell.bar { border-left: 2px solid var(--muted); }
+
+  .cell .v { padding: 1px 6px; border-radius: 8px; }
+
+  .show-lead .cell.lead .v { box-shadow: 0 0 0 2px var(--teal); }
+
+  .cell.ref .v,
+  .show-lead .cell.lead.ref .v { background: var(--teal-soft); box-shadow: 0 0 0 2px var(--teal-dark); }
+
+  .cell.issue .v,
+  .show-lead .cell.lead.issue .v { background: var(--red-soft); box-shadow: 0 0 0 2px var(--red); }
+
+  .cell.hl-target,
+  .row-label.hl-target { background: var(--gold-soft); }
+
+  .cell.hl-source,
+  .row-label.hl-source { background: var(--teal-soft); }
+
+  .row-label.hl-target { color: var(--ink); box-shadow: inset 4px 0 0 var(--gold); }
+
+  .row-label.hl-source { color: var(--ink); box-shadow: inset 4px 0 0 var(--teal); }
+
+  /* Marks from Check and results come after the row tints so they stay visible. */
+  .cell.ref-row,
+  .row-label.ref-row { background: var(--teal-soft); }
+
+  .cell.issue-row,
+  .row-label.issue-row { background: var(--red-soft); box-shadow: inset 0 2px 0 var(--red), inset 0 -2px 0 var(--red); }
+
+  .row-label.issue-row { box-shadow: inset 4px 0 0 var(--red); }
+
+  .row-label.issue-row,
+  .row-label.ref-row { color: var(--ink); }
+
+  .cell.changed { animation: flash 1.1s ease-out; }
+
+  @keyframes flash {
+    from { background-color: rgba(217, 155, 57, 0.5); }
+    to { background-color: transparent; }
+  }
+
+  .frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 0.04em;
+    font-size: 0.74em;
+    line-height: 1.12;
+  }
+
+  .frac .fn { padding: 0 0.15em; border-bottom: 1.5px solid currentColor; }
+
+  .frac .fd { padding: 0 0.15em; }
+
+  .lead-toggle { display: flex; justify-content: center; margin: 2px 0 0; }
+
+  .lead-toggle label {
+    min-height: 32px;
+    padding: 4px 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .lead-toggle input { width: 18px; height: 18px; margin: 0; }
+
+  /* Status */
+
+  .status {
+    margin-top: 14px;
+    padding: 12px 14px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow-x: auto;
+  }
+
+  .status:empty { display: none; }
+
+  .status .st-title { display: block; margin-bottom: 2px; font-weight: 700; }
+
+  .status p { margin: 6px 0 0; }
+
+  .status p:first-of-type { margin-top: 0; }
+
+  .status .st-title + p { margin-top: 2px; }
+
+  .status.success { background: var(--green-soft); border-color: rgba(47, 125, 79, 0.38); }
+
+  .status.success .st-title { color: var(--green); }
+
+  .status.warn { background: var(--red-soft); border-color: rgba(182, 75, 63, 0.38); }
+
+  .status.warn .st-title { color: var(--red); }
+
+  .status.hint { background: var(--gold-soft); border-color: rgba(217, 155, 57, 0.5); }
+
+  .status .actions { margin-top: 12px; }
+
+  .result-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 26px; margin-top: 12px; }
+
+  .named { display: flex; align-items: center; gap: 10px; max-width: 100%; }
+
+  .named .name { font-weight: 650; white-space: nowrap; }
+
+  .named .matrix-box { margin: 0; }
+
+  .mini { --row-h: 2.3rem; --mfs: 1.05rem; }
+
+  .mini .cell { min-width: 2.4rem; padding: 0 0.3rem; }
+
+  /* Row operations */
+
+  .ops { margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line); }
+
+  .ops-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+
+  .seg {
+    min-width: 0;
+    display: inline-flex;
+    gap: 4px;
+    margin: 0;
+    padding: 4px;
+    background: rgba(24, 32, 31, 0.07);
+    border: 0;
+    border-radius: 12px;
+  }
+
+  .seg legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+  .seg label { position: relative; }
+
+  .seg input { position: absolute; opacity: 0; pointer-events: none; }
+
+  .seg span {
+    display: block;
+    padding: 7px 13px;
+    color: var(--muted);
+    border-radius: 9px;
+    font-weight: 650;
+    font-size: 0.95rem;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .seg input:checked + span { color: var(--ink); background: var(--card); box-shadow: 0 1px 4px rgba(24, 32, 31, 0.16); }
+
+  .seg input:focus-visible + span { outline: 3px solid var(--teal); outline-offset: 1px; }
+
+  .op-help { margin: 10px 0 0; color: var(--muted); font-size: 0.95rem; }
+
+  .op-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 14px 0 0;
+    font-size: 1.15rem;
+  }
+
+  .op-row[hidden] { display: none; }
+
+  .op-part { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+
+  .op-row select { font-size: 1rem; font-weight: 650; }
+
+  .op-row .sym { color: var(--muted); }
+
+  .op-row .echo { font-weight: 650; }
+
+  input.num { width: 6.2em; font-size: 1rem; text-align: center; }
+
+  .preview {
+    min-height: 3.2rem;
+    margin: 10px 0 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .preview.bad { color: var(--red); }
+
+  .preview .matrix-box {
+    margin: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    color: var(--ink);
+    --mfs: 1.12rem;
+    background:
+      linear-gradient(to right, var(--card) 30%, rgba(255, 253, 248, 0)) left / 24px 100% no-repeat local,
+      linear-gradient(to left, var(--card) 30%, rgba(255, 253, 248, 0)) right / 24px 100% no-repeat local,
+      radial-gradient(farthest-side at 0 50%, rgba(24, 32, 31, 0.22), transparent) left / 10px 100% no-repeat scroll,
+      radial-gradient(farthest-side at 100% 50%, rgba(24, 32, 31, 0.22), transparent) right / 10px 100% no-repeat scroll;
+  }
+
+  /* Side cards */
+
+  .side-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+
+  .count { color: var(--muted); font-size: 0.9rem; }
+
+  .history {
+    max-height: 340px;
+    margin: 0 0 14px;
+    padding-left: 1.7em;
+    overflow: auto;
+    font-variant-numeric: tabular-nums;
+    scroll-snap-type: y proximity;
+  }
+
+  .history[hidden] { display: none; }
+
+  .history li { padding: 3px 0; scroll-snap-align: start; }
+
+  .history li::marker { color: var(--muted); }
+
+  .history-empty { margin: 0 0 14px; color: var(--muted); font-size: 0.95rem; }
+
+  .defs details { padding: 8px 0; border-top: 1px solid var(--line); }
+
+  .defs details:first-of-type { border-top: 0; padding-top: 4px; }
+
+  .defs summary { padding: 6px 0; font-weight: 650; cursor: pointer; }
+
+  .defs ol, .defs ul { margin: 6px 0 0; padding-left: 1.3em; font-size: 0.95rem; }
+
+  .defs li { margin: 3px 0; }
+
+  .defs p { margin: 6px 0 0; font-size: 0.95rem; }
+
+  .defs h2 { margin-bottom: 6px; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: minmax(0, 1fr); }
+    .history { max-height: none; }
+  }
+
+  @media (max-width: 560px) {
+    :root { --row-h: 2.6rem; --mfs: 1.05rem; }
+    .wrap { padding: 18px 12px 40px; }
+    .topbar-inner { padding: 12px 14px; }
+    .tagline { display: none; }
+    .card { padding: 14px; }
+    .modes { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .modes button { padding: 9px 6px; font-size: 0.92rem; }
+    .modes .long { display: none; }
+    .modes .short { display: inline; }
+    .matrix-box { gap: 2px; }
+    .bracket { padding: 4px 8px; }
+    .row-label { padding: 0 4px 0 8px; }
+    .cell { min-width: 1.85rem; padding: 0 0.15rem; }
+    .mini .cell { min-width: 1.7rem; padding: 0 0.12rem; }
+    .mini .cell .v { padding: 1px 3px; }
+    .ops-head { display: block; }
+    .seg { display: flex; width: 100%; margin-top: 10px; }
+    .seg label { flex: 1 1 0; }
+    .seg span { padding: 9px 4px; }
+    .op-row { gap: 6px; font-size: 1.05rem; }
+    .op-part { gap: 6px; }
+    input.num { width: 4.8em; }
+  }
+
+  @media (max-width: 360px) {
+    .brand { font-size: 1.1rem; }
+    .logo { width: 28px; height: 28px; }
+  }
+
+  @media (pointer: coarse) {
+    .seg span { padding-top: 10px; padding-bottom: 10px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cell.changed { animation: none; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <h1 class="brand"><span class="logo" aria-hidden="true">&#9935;</span>Echelon Miner</h1>
+    <span class="tagline">Row-reduction practice</span>
+    <a class="back" href="../">&larr; MAT 331</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="modes" role="tablist" aria-label="Practice mode">
+    <button type="button" role="tab" id="tab-ref" data-mode="ref" aria-controls="workspace" aria-selected="true" aria-label="Echelon form"><span class="long">Echelon form</span><span class="short">Echelon</span></button>
+    <button type="button" role="tab" id="tab-rref" data-mode="rref" aria-controls="workspace" aria-selected="false" tabindex="-1" aria-label="Reduced echelon form"><span class="long">Reduced echelon form</span><span class="short">Reduced</span></button>
+    <button type="button" role="tab" id="tab-inverse" data-mode="inverse" aria-controls="workspace" aria-selected="false" tabindex="-1" aria-label="Inverse with [A | I]"><span class="long">Inverse with [A&nbsp;|&nbsp;I]</span><span class="short">Inverse</span></button>
+  </div>
+  <p class="goal" id="goal"></p>
+
+  <div class="layout" id="workspace" role="tabpanel" aria-labelledby="tab-ref">
+    <section class="card" aria-label="Workspace">
+      <div class="problem-bar">
+        <label for="problemSelect">Problem</label>
+        <select id="problemSelect"></select>
+        <button type="button" class="btn" id="editButton" aria-controls="customPanel" aria-expanded="false" hidden>Edit matrix</button>
+        <button type="button" class="btn" id="newButton">New matrix</button>
+      </div>
+
+      <form class="custom" id="customPanel" hidden novalidate>
+        <p id="customHelp"></p>
+        <textarea id="customInput" spellcheck="false" aria-label="Matrix entries" aria-describedby="customHelp customError"></textarea>
+        <label class="check-label" id="augWrap"><input type="checkbox" id="customAug"> The last column is the right-hand side (augmented matrix)</label>
+        <p class="form-error" id="customError" role="alert"></p>
+        <div class="actions">
+          <button type="submit" class="btn primary">Use this matrix</button>
+          <button type="button" class="btn" id="customCancel">Cancel</button>
+        </div>
+      </form>
+
+      <h2 class="sr-only">Matrix</h2>
+      <p class="caption" id="caption"></p>
+      <div class="matrix-area">
+        <div class="matrix-box" id="matrixBox" role="img" tabindex="-1">
+          <div class="row-labels" id="rowLabels" aria-hidden="true"></div>
+          <div class="bracket"><div class="grid" id="matrixGrid" aria-hidden="true"></div></div>
+        </div>
+      </div>
+      <div class="lead-toggle"><label><input type="checkbox" id="leadToggle" checked> Highlight leading entries</label></div>
+
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+
+      <section class="ops" aria-labelledby="opsTitle">
+        <div class="ops-head">
+          <h2 id="opsTitle">Row operation</h2>
+          <fieldset class="seg" id="opChooser">
+            <legend>Type of row operation</legend>
+            <label><input type="radio" name="op" value="replace" checked><span>Replacement</span></label>
+            <label><input type="radio" name="op" value="swap"><span>Interchange</span></label>
+            <label><input type="radio" name="op" value="scale"><span>Scaling</span></label>
+          </fieldset>
+        </div>
+        <p class="op-help" id="opHelp"></p>
+
+        <form id="opForm" novalidate>
+          <div class="op-row" id="fReplace">
+            <span class="op-part">
+              <select id="repTarget" aria-label="Row to replace"></select>
+              <span class="sym">&larr;</span>
+              <span class="echo" id="repEcho"></span>
+              <span class="sym">+</span>
+            </span>
+            <span class="op-part">
+              <input type="text" class="num" id="repC" inputmode="text" autocomplete="off" placeholder="c" aria-label="Multiplier c" aria-describedby="preview">
+              <span class="sym">&middot;</span>
+              <select id="repSource" aria-label="Row to add a multiple of"></select>
+            </span>
+          </div>
+          <div class="op-row" id="fSwap" hidden>
+            <span class="op-part">
+              <select id="swapA" aria-label="First row" aria-describedby="preview"></select>
+              <span class="sym">&harr;</span>
+              <select id="swapB" aria-label="Second row"></select>
+            </span>
+          </div>
+          <div class="op-row" id="fScale" hidden>
+            <span class="op-part">
+              <select id="scaleRow" aria-label="Row to scale"></select>
+              <span class="sym">&larr;</span>
+            </span>
+            <span class="op-part">
+              <input type="text" class="num" id="scaleC" inputmode="text" autocomplete="off" placeholder="c" aria-label="Scale factor c" aria-describedby="preview">
+              <span class="sym">&middot;</span>
+              <span class="echo" id="scaleEcho"></span>
+            </span>
+          </div>
+          <div class="preview" id="preview"></div>
+          <div class="actions">
+            <button type="submit" class="btn primary" id="applyButton" aria-describedby="preview">Apply</button>
+            <button type="button" class="btn" id="hintButton">Hint</button>
+            <button type="button" class="btn" id="checkButton">Check</button>
+          </div>
+        </form>
+      </section>
+    </section>
+
+    <aside class="side">
+      <section class="card" aria-labelledby="stepsTitle">
+        <div class="side-head"><h2 id="stepsTitle">Steps</h2><span class="count" id="stepCount"></span></div>
+        <ol class="history" id="history"></ol>
+        <p class="history-empty" id="historyEmpty">No steps yet.</p>
+        <div class="actions">
+          <button type="button" class="btn" id="undoButton">Undo</button>
+          <button type="button" class="btn" id="resetButton">Start over</button>
+        </div>
+      </section>
+
+      <section class="card defs" aria-labelledby="defsTitle">
+        <h2 id="defsTitle">Definitions</h2>
+        <details id="defRef">
+          <summary>Echelon form</summary>
+          <ol>
+            <li>Any rows of all zeros are at the bottom.</li>
+            <li>Each leading entry (first nonzero entry of a row) is in a column to the right of the leading entry in the row above.</li>
+            <li>Every entry below a leading entry is 0.</li>
+          </ol>
+        </details>
+        <details id="defRref">
+          <summary>Reduced echelon form</summary>
+          <p>Echelon form, and also:</p>
+          <ol start="4">
+            <li>Every leading entry is 1.</li>
+            <li>Each leading 1 is the only nonzero entry in its column.</li>
+          </ol>
+        </details>
+        <details id="defPivot">
+          <summary>Pivots and solutions</summary>
+          <ul>
+            <li>A <b>pivot position</b> is where a leading entry sits in an echelon form of the matrix (a leading 1 in its reduced echelon form). A <b>pivot column</b> contains a pivot position, and a <b>pivot</b> is the nonzero number there.</li>
+            <li>Two matrices are <b>row equivalent</b> if row operations turn one into the other.</li>
+            <li>For an augmented matrix, variables in pivot columns are <b>basic</b>; the others are <b>free</b>.</li>
+            <li>A system is consistent exactly when the last column is not a pivot column. A consistent system has a unique solution exactly when there are no free variables.</li>
+          </ul>
+        </details>
+        <details id="defOps">
+          <summary>Row operations</summary>
+          <ul>
+            <li><b>Replacement:</b> add a multiple of one row to another row.</li>
+            <li><b>Interchange:</b> swap two rows.</li>
+            <li><b>Scaling:</b> multiply every entry of a row by a nonzero number.</li>
+          </ul>
+        </details>
+        <details id="defInv">
+          <summary>Finding <span aria-hidden="true">A<sup>&minus;1</sup></span><span class="sr-only">A inverse</span></summary>
+          <p>Row reduce <span class="nowrap">[A&nbsp;|&nbsp;I]</span>. If A is row equivalent to I, then <span class="nowrap">[A&nbsp;|&nbsp;I]</span> is row equivalent to <span class="nowrap">[I&nbsp;|&nbsp;<span aria-hidden="true">A<sup>&minus;1</sup></span><span class="sr-only">A inverse</span>]</span>. Otherwise A is not invertible.</p>
+        </details>
+      </section>
+    </aside>
+  </div>
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  /* ---------- Exact fractions ---------- */
+
+  class Fraction {
+    constructor(n, d = 1n) {
+      n = BigInt(n);
+      d = BigInt(d);
+      if (d === 0n) throw new Error("zero denominator");
+      if (d < 0n) { n = -n; d = -d; }
+      const g = Fraction.gcd(n < 0n ? -n : n, d);
+      this.n = n / g;
+      this.d = d / g;
+    }
+    static gcd(a, b) { while (b !== 0n) { [a, b] = [b, a % b]; } return a === 0n ? 1n : a; }
+    static of(v) {
+      if (v instanceof Fraction) return v;
+      if (typeof v === "bigint") return new Fraction(v);
+      if (typeof v === "number" && Number.isInteger(v)) return new Fraction(BigInt(v));
+      if (typeof v === "string") { const p = parseNumber(v); if (p) return p; }
+      throw new Error("not a number: " + v);
+    }
+    add(o) { return new Fraction(this.n * o.d + o.n * this.d, this.d * o.d); }
+    sub(o) { return new Fraction(this.n * o.d - o.n * this.d, this.d * o.d); }
+    mul(o) { return new Fraction(this.n * o.n, this.d * o.d); }
+    div(o) { if (o.n === 0n) throw new Error("division by zero"); return new Fraction(this.n * o.d, this.d * o.n); }
+    neg() { return new Fraction(-this.n, this.d); }
+    abs() { return this.n < 0n ? this.neg() : this; }
+    isZero() { return this.n === 0n; }
+    isOne() { return this.n === 1n && this.d === 1n; }
+    isUnit() { return this.d === 1n && (this.n === 1n || this.n === -1n); }
+    isInteger() { return this.d === 1n; }
+    equals(o) { return this.n === o.n && this.d === o.d; }
+    toString() { return this.d === 1n ? String(this.n) : this.n + "/" + this.d; }
+  }
+
+  const ZERO = new Fraction(0n);
+  const ONE = new Fraction(1n);
+  const F = v => Fraction.of(v);
+
+  // Accepts integers, fractions like -3/2, and decimals like 0.25. Returns null for empty input.
+  function parseNumber(text) {
+    let s = String(text).trim().replace(/[−–—]/g, "-");
+    if (s === "") return null;
+    if (/[\d.]\s+[\d.]/.test(s)) throw new Error("invalid number");
+    s = s.replace(/\s+/g, "");
+    const wrapped = s.match(/^\((.*)\)$/);
+    if (wrapped) s = wrapped[1];
+    let m = s.match(/^([+-]?)(\d+)\/(\d+)$/);
+    if (m) {
+      if (BigInt(m[3]) === 0n) throw new Error("zero denominator");
+      return new Fraction(BigInt(m[2]) * (m[1] === "-" ? -1n : 1n), BigInt(m[3]));
+    }
+    m = s.match(/^([+-]?)(\d*)(?:\.(\d*))?$/);
+    if (m && (m[2] !== "" || (m[3] || "") !== "")) {
+      const frac = m[3] || "";
+      return new Fraction(BigInt((m[2] || "0") + frac) * (m[1] === "-" ? -1n : 1n), 10n ** BigInt(frac.length));
+    }
+    throw new Error("invalid number");
+  }
+
+  /* ---------- Matrices ---------- */
+
+  const fromRaw = raw => raw.map(row => row.map(F));
+  const identity = n => Array.from({ length: n }, (_, i) => Array.from({ length: n }, (_, j) => (i === j ? ONE : ZERO)));
+  const hstack = (A, B) => A.map((row, i) => [...row, ...B[i]]);
+  const matMul = (A, B) => A.map(row => B[0].map((_, j) => row.reduce((s, v, k) => s.add(v.mul(B[k][j])), ZERO)));
+  const rowsEqual = (a, b) => a.every((v, j) => v.equals(b[j]));
+
+  function isZeroRow(row, limit = row.length) {
+    for (let j = 0; j < limit; j++) if (!row[j].isZero()) return false;
+    return true;
+  }
+
+  function isIdentity(A, n) {
+    return A.every((row, i) => row.slice(0, n).every((v, j) => (i === j ? v.isOne() : v.isZero())));
+  }
+
+  function maxAbs(A) {
+    let m = 0n;
+    for (const row of A) for (const v of row) { const a = v.n < 0n ? -v.n : v.n; if (a > m) m = a; }
+    return Number(m);
+  }
+
+  function maxDen(A) {
+    let m = 1n;
+    for (const row of A) for (const v of row) if (v.d > m) m = v.d;
+    return Number(m);
+  }
+
+  // Elementary row operations. Each returns a new matrix.
+  function applyOp(A, op) {
+    const X = A.map(row => row.slice());
+    if (op.type === "swap") {
+      if (op.a === op.b) throw new Error("interchange needs two different rows");
+      [X[op.a], X[op.b]] = [X[op.b], X[op.a]];
+    } else if (op.type === "scale") {
+      if (op.c.isZero()) throw new Error("scale factor must be nonzero");
+      X[op.row] = X[op.row].map(v => v.mul(op.c));
+    } else if (op.type === "replace") {
+      if (op.target === op.source) throw new Error("replacement needs two different rows");
+      X[op.target] = X[op.target].map((v, j) => v.add(op.c.mul(A[op.source][j])));
+    } else {
+      throw new Error("unknown operation");
+    }
+    return X;
+  }
+
+  /* ---------- Formatting ---------- */
+
+  const fmt = f => f.toString().replace("-", "−");
+  const escapeHTML = s => String(s).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+
+  function numHTML(f) {
+    const neg = f.n < 0n;
+    const n = neg ? -f.n : f.n;
+    const sign = neg ? "−" : "";
+    if (f.d === 1n) return sign + n;
+    return `${sign}<span class="frac"><span class="fn">${n}</span><span class="fd">${f.d}</span></span>`;
+  }
+
+  // How a screen reader should say a number.
+  function spoken(f) {
+    const neg = f.n < 0n;
+    const n = neg ? -f.n : f.n;
+    return (neg ? "minus " : "") + (f.d === 1n ? String(n) : `${n} over ${f.d}`);
+  }
+
+  function coefText(abs) {
+    if (abs.isOne()) return "";
+    return abs.isInteger() ? abs.toString() : "(" + abs.toString() + ")";
+  }
+
+  function opLabel(op) {
+    if (op.type === "swap") return `R${op.a + 1} ↔ R${op.b + 1}`;
+    if (op.type === "scale") {
+      const r = `R${op.row + 1}`;
+      if (op.c.equals(ONE.neg())) return `${r} ← −${r}`;
+      return op.c.isInteger() ? `${r} ← ${fmt(op.c)}${r}` : `${r} ← (${fmt(op.c)})${r}`;
+    }
+    const t = `R${op.target + 1}`;
+    const neg = op.c.n < 0n;
+    return `${t} ← ${t} ${neg ? "−" : "+"} ${coefText(op.c.abs())}R${op.source + 1}`;
+  }
+
+  const labelHTML = text => escapeHTML(text).replace(/R(\d+)/g, "R<sub>$1</sub>");
+
+  function rowText(row, divider, rightName) {
+    if (!divider) return row.map(spoken).join(", ");
+    return `${row.slice(0, divider).map(spoken).join(", ")}; ${rightName}: ${row.slice(divider).map(spoken).join(", ")}`;
+  }
+
+  function matrixText(X, divider, rightName) {
+    return X.map((row, r) => `Row ${r + 1}: ${rowText(row, divider, rightName)}.`).join(" ");
+  }
+
+  // A⁻¹ for the eye, "A inverse" for screen readers.
+  const AINV = '<span aria-hidden="true">A<sup>−1</sup></span><span class="sr-only">A inverse</span>';
+
+  /* ---------- Checking the form of a matrix ---------- */
+
+  function leadIndex(row, limit) {
+    for (let j = 0; j < limit; j++) if (!row[j].isZero()) return j;
+    return -1;
+  }
+
+  // Echelon form, looking only at the first `limit` columns.
+  // On failure: cells = entries that are wrong, refs = entries they are compared with, rows = whole rows that are wrong.
+  // Walks the columns left to right like the forward phase of the hints, so Check and Hint point at the same place.
+  function analyzeEchelon(A, limit = A[0].length) {
+    const pivots = [];
+    let r = 0;
+    for (let c = 0; c < limit && r < A.length; c++) {
+      let first = -1;
+      for (let i = r; i < A.length; i++) if (!A[i][c].isZero()) { first = i; break; }
+      if (first < 0) continue;
+      if (first !== r) {
+        if (isZeroRow(A[r], limit)) {
+          return { ok: false, rows: [r], cells: [], refs: [],
+            msg: `Row ${r + 1} is all zeros, but row ${first + 1} below it is not. Rows of zeros belong at the bottom.` };
+        }
+        const lead = leadIndex(A[r], limit);
+        return { ok: false, rows: [], cells: [[first, c]], refs: [[r, lead]],
+          msg: `Row ${first + 1}'s leading entry is in column ${c + 1}, which is left of row ${r + 1}'s leading entry (column ${lead + 1}). Each leading entry must be to the right of the one above it.` };
+      }
+      for (let i = r + 1; i < A.length; i++) {
+        if (!A[i][c].isZero()) {
+          return { ok: false, rows: [], cells: [[i, c]], refs: [[r, c]],
+            msg: `The entry ${fmt(A[i][c])} in row ${i + 1}, column ${c + 1} is below the leading entry of row ${r + 1}, so it must be 0.` };
+        }
+      }
+      pivots.push([r, c]);
+      r++;
+    }
+    return { ok: true, pivots };
+  }
+
+  // Works from the rightmost pivot upward, in the same order as the hints.
+  function analyzeReduced(A, limit = A[0].length) {
+    const e = analyzeEchelon(A, limit);
+    if (!e.ok) return e;
+    for (const [r, c] of e.pivots.slice().reverse()) {
+      if (!A[r][c].isOne()) {
+        return { ok: false, rows: [], cells: [[r, c]], refs: [],
+          msg: `The leading entry of row ${r + 1} is ${fmt(A[r][c])}. In reduced echelon form every leading entry is 1.` };
+      }
+      for (let i = r - 1; i >= 0; i--) {
+        if (!A[i][c].isZero()) {
+          return { ok: false, rows: [], cells: [[i, c]], refs: [[r, c]],
+            msg: `The entry ${fmt(A[i][c])} in row ${i + 1}, column ${c + 1} is above the leading 1 of row ${r + 1}, so it must be 0.` };
+        }
+      }
+    }
+    return { ok: true, pivots: e.pivots };
+  }
+
+  // Row reducing [A | I] where A is n x n.
+  function analyzeInverse(X, n) {
+    for (let r = 0; r < X.length; r++) {
+      if (isZeroRow(X[r], n)) return { status: "singular", row: r };
+    }
+    const red = analyzeReduced(X, n);
+    if (red.ok) return { status: "done", inverse: X.map(row => row.slice(n)) };
+    return { status: "progress", analysis: red };
+  }
+
+  /* ---------- Hints: the textbook row reduction algorithm ---------- */
+
+  // goal is "ref", "rref", or "inverse". Pivots are only looked for in the first `limit` columns.
+  // `last` is the previous step ({ op, before }), used so the hint never switches pivots in the middle of a column.
+  // Forward phase: create zeros below each pivot. Backward phase: from the rightmost pivot, scale to 1 and create zeros above.
+  function nextHint(A, goal, limit = A[0].length, last = null) {
+    const rows = A.length;
+    let r = 0;
+    for (let c = 0; c < limit && r < rows; c++) {
+      let first = -1;
+      for (let i = r; i < rows; i++) if (!A[i][c].isZero()) { first = i; break; }
+      if (first < 0) continue;
+
+      // A row whose integer entry in column c divides every entry from row r down, so all multipliers are integers.
+      const divides = i => A[i][c].isInteger() && A.slice(r).every(row => row[c].isZero() || row[c].div(A[i][c]).isInteger());
+      let divider = -1;
+      for (let i = r; i < rows; i++) if (!A[i][c].isZero() && divides(i)) { divider = i; break; }
+
+      if (first !== r) {
+        const p = divider >= 0 ? divider : first;
+        const op = { type: "swap", a: r, b: p };
+        let why = isZeroRow(A[r])
+          ? `Row ${r + 1} is all zeros, and rows of zeros belong at the bottom. Interchange it with row ${p + 1}: ${opLabel(op)}.`
+          : `The pivot position is row ${r + 1}, column ${c + 1}, but that entry is 0. Row ${p + 1} has a nonzero entry in column ${c + 1}. Interchange them: ${opLabel(op)}.`;
+        if (p !== first) why += ` Row ${p + 1} is a good choice: its ${fmt(A[p][c])} divides every entry in column ${c + 1} from row ${r + 1} down, so the multipliers will be whole numbers.`;
+        return { op, phase: "forward", why };
+      }
+
+      const pivot = A[r][c];
+      // Don't switch pivots right after this pivot was used to clear an entry in this column.
+      const lastOp = last && last.op;
+      const clearedHere = !!(lastOp && lastOp.type === "replace" && lastOp.source === r &&
+        !last.before[lastOp.target][c].isZero() && A[lastOp.target][c].isZero());
+      if (divider > r && !divides(r) && !clearedHere) {
+        const op = { type: "swap", a: r, b: divider };
+        return { op, phase: "forward",
+          why: `The ${fmt(A[divider][c])} in row ${divider + 1} divides every entry in column ${c + 1} from row ${r + 1} down, so using it as the pivot keeps the multipliers whole numbers: ${opLabel(op)}.` };
+      }
+      for (let i = r + 1; i < rows; i++) {
+        if (!A[i][c].isZero()) {
+          const op = { type: "replace", target: i, source: r, c: A[i][c].div(pivot).neg() };
+          return { op, phase: "forward",
+            why: `Use the pivot ${fmt(pivot)} in row ${r + 1} to make the ${fmt(A[i][c])} below it in row ${i + 1} a 0: ${opLabel(op)}.` };
+        }
+      }
+      r++;
+    }
+    if (goal === "ref") return null;
+    const e = analyzeEchelon(A, limit);
+    if (!e.ok) return null;
+    for (let t = e.pivots.length - 1; t >= 0; t--) {
+      const [pr, pc] = e.pivots[t];
+      if (!A[pr][pc].isOne()) {
+        const op = { type: "scale", row: pr, c: ONE.div(A[pr][pc]) };
+        return { op, phase: "backward",
+          why: `The leading entry of row ${pr + 1} is ${fmt(A[pr][pc])}. Scale the row to make it 1: ${opLabel(op)}.` };
+      }
+      for (let i = pr - 1; i >= 0; i--) {
+        if (!A[i][pc].isZero()) {
+          const op = { type: "replace", target: i, source: pr, c: A[i][pc].neg() };
+          return { op, phase: "backward",
+            why: `Make the ${fmt(A[i][pc])} above the leading 1 of row ${pr + 1} a 0: ${opLabel(op)}.` };
+        }
+      }
+    }
+    return null;
+  }
+
+  // Follows the hints until the goal is reached. Used to choose problems with friendly arithmetic.
+  function simulate(A, goal, limit = A[0].length, maxSteps = 80) {
+    let X = A, steps = 0, den = maxDen(A), last = null;
+    while (steps < maxSteps) {
+      if (goal === "inverse" && analyzeInverse(X, limit).status !== "progress") break;
+      const h = nextHint(X, goal, limit, last);
+      if (!h) break;
+      last = { op: h.op, before: X };
+      X = applyOp(X, h.op);
+      steps++;
+      den = Math.max(den, maxDen(X));
+    }
+    return { steps, maxDen: den, final: X };
+  }
+
+  /* ---------- Problem generators ---------- */
+
+  const randInt = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+  const pick = arr => arr[randInt(0, arr.length - 1)];
+  function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) { const j = randInt(0, i); [a[i], a[j]] = [a[j], a[i]]; }
+    return a;
+  }
+
+  // An integer matrix with determinant +1 or -1, so its inverse is also an integer matrix.
+  function randomUnimodular(n, ops, bound) {
+    let E = identity(n), done = 0, guard = 0;
+    while (done < ops && guard++ < 400) {
+      const i = randInt(0, n - 1);
+      let j = randInt(0, n - 2);
+      if (j >= i) j++;
+      const next = applyOp(E, { type: "replace", target: i, source: j, c: F(pick([-2, -1, 1, 2])) });
+      if (maxAbs(next) <= bound) { E = next; done++; }
+    }
+    E = shuffle(E.slice());
+    if (Math.random() < 0.3) { const r = randInt(0, n - 1); E[r] = E[r].map(v => v.neg()); }
+    return E;
+  }
+
+  // A reduced echelon matrix with the given pivot columns and small integer entries elsewhere.
+  function buildRREF(m, n, pivotCols, range) {
+    const R = Array.from({ length: m }, () => Array.from({ length: n }, () => ZERO));
+    pivotCols.forEach((pc, r) => {
+      R[r][pc] = ONE;
+      for (let j = pc + 1; j < n; j++) if (!pivotCols.includes(j)) R[r][j] = F(randInt(-range, range));
+    });
+    return R;
+  }
+
+  // k pivot columns out of 0..n-1, always including column 0.
+  function choosePivots(n, k) {
+    const rest = shuffle([...Array(n).keys()].slice(1)).slice(0, k - 1);
+    return [0, ...rest].sort((a, b) => a - b);
+  }
+
+  function friendlyRowProblem(A) {
+    if (maxAbs(A) > 9) return false;
+    if (A.some(row => isZeroRow(row))) return false;
+    if (A.every(row => row[0].isZero())) return false;
+    const ref = simulate(A, "ref");
+    const rref = simulate(A, "rref");
+    if (ref.steps < A.length - 1) return false;
+    if (ref.maxDen > 3) return false;
+    if (rref.maxDen > (A.length > 3 ? 4 : 3)) return false;
+    return rref.steps <= 24;
+  }
+
+  function rowProblem(m, n, pivotFn, augmentCols) {
+    for (let attempt = 0; attempt < 600; attempt++) {
+      const R = buildRREF(m, n, pivotFn(), 3);
+      const E = randomUnimodular(m, m + 2 + randInt(0, 2), 4);
+      const A = matMul(E, R);
+      if (friendlyRowProblem(A)) return { A, augmentCols };
+    }
+    return null;
+  }
+
+  function systemProblem(m, unknowns) {
+    const roll = Math.random();
+    let pivotFn;
+    if (roll < 0.5) pivotFn = () => [...Array(unknowns).keys()];
+    else if (roll < 0.75) pivotFn = () => choosePivots(unknowns, unknowns - 1);
+    else pivotFn = () => [...choosePivots(unknowns, unknowns - 1), unknowns];
+    return rowProblem(m, unknowns + 1, pivotFn, 1);
+  }
+
+  function inverseProblem(n, ops, bound, minSteps) {
+    for (let attempt = 0; attempt < 600; attempt++) {
+      const A = randomUnimodular(n, ops, bound);
+      if (maxAbs(A) > 9) continue;
+      const s = simulate(hstack(A, identity(n)), "inverse", n);
+      const result = analyzeInverse(s.final, n);
+      if (result.status !== "done") continue;
+      if (maxAbs(result.inverse) > 12 || s.maxDen > 2 || s.steps < minSteps) continue;
+      return { A, augmentCols: n };
+    }
+    return null;
+  }
+
+  function singularProblem(n) {
+    for (let attempt = 0; attempt < 600; attempt++) {
+      const R = buildRREF(n, n, choosePivots(n, n - 1), 3);
+      const A = matMul(randomUnimodular(n, n + 3, 4), R);
+      if (maxAbs(A) > 9 || A.some(row => isZeroRow(row)) || A.every(row => row[0].isZero())) continue;
+      const s = simulate(hstack(A, identity(n)), "inverse", n);
+      if (s.maxDen > 3 || s.steps < 3) continue;
+      return { A, augmentCols: n };
+    }
+    return null;
+  }
+
+  const FALLBACK = {
+    r33: [[1, 2, 3], [2, 5, 3], [1, 0, 8]],
+    r34: [[1, 2, -1, 3], [2, 5, 1, 4], [-1, 1, 3, -2]],
+    r44: [[1, 1, 0, 0], [1, 2, 1, 0], [0, 1, 2, 1], [0, 0, 1, 2]],
+    r45: [[1, 2, 0, 1, 3], [2, 5, 1, 2, 4], [0, 1, 2, -1, 1], [1, 3, 2, 1, 2]],
+    sys3: [[1, 2, -1, 3], [2, 5, 1, 4], [-1, 1, 3, -2]],
+    sys4: [[1, 1, 0, 0, 1], [1, 2, 1, 0, 2], [0, 1, 2, 1, 3], [0, 0, 1, 2, 4]],
+    i2: [[2, 1], [5, 3]],
+    i3: [[1, 2, 3], [2, 5, 3], [1, 0, 8]],
+    i4: [[1, 1, 0, 0], [1, 2, 1, 0], [0, 1, 2, 1], [0, 0, 1, 2]],
+    singular3: [[1, 2, 3], [2, 4, 7], [1, 2, 4]]
+  };
+
+  const GENERATORS = {
+    r33: () => rowProblem(3, 3, () => (Math.random() < 0.3 ? choosePivots(3, 2) : [0, 1, 2]), 0),
+    r34: () => rowProblem(3, 4, () => choosePivots(4, Math.random() < 0.2 ? 2 : 3), 0),
+    r44: () => rowProblem(4, 4, () => (Math.random() < 0.25 ? choosePivots(4, 3) : [0, 1, 2, 3]), 0),
+    r45: () => rowProblem(4, 5, () => choosePivots(5, Math.random() < 0.3 ? 3 : 4), 0),
+    sys3: () => systemProblem(3, 3),
+    sys4: () => systemProblem(4, 4),
+    i2: () => inverseProblem(2, 3, 6, 3),
+    i3: () => inverseProblem(3, 6, 6, 6),
+    i4: () => inverseProblem(4, 8, 5, 10),
+    imaybe: () => (Math.random() < 0.5 ? inverseProblem(3, 6, 6, 6) : singularProblem(3))
+  };
+
+  function generate(kind) {
+    const made = GENERATORS[kind]();
+    if (made) return made;
+    const key = kind === "imaybe" ? "singular3" : kind;
+    const augmentCols = kind.startsWith("sys") ? 1 : kind.startsWith("i") ? FALLBACK[key].length : 0;
+    return { A: fromRaw(FALLBACK[key]), augmentCols };
+  }
+
+  /* ---------- Problem lists ---------- */
+
+  const PROBLEMS = {
+    rowred: [
+      { group: "Practice", items: [
+        { id: "p1", label: "Practice 1 · 3 × 4", raw: [[1, 2, -1, 3], [2, 5, 1, 4], [-1, 1, 3, -2]] },
+        { id: "p2", label: "Practice 2 · 3 × 4, negative pivot", raw: [[-2, 1, 3, 4], [4, -1, -4, -5], [-6, 2, 6, 10]] },
+        { id: "p3", label: "Practice 3 · 3 × 4, needs an interchange", raw: [[0, 2, 1, 5], [3, -1, 2, 6], [6, -4, 2, 6]] },
+        { id: "p4", label: "Practice 4 · a system with a free variable", raw: [[1, 2, 1, 3], [2, 4, 3, 7], [1, 2, 0, 2]], aug: 1 }
+      ] },
+      { group: "Random matrix", items: [
+        { id: "r33", label: "Random 3 × 3", gen: "r33" },
+        { id: "r34", label: "Random 3 × 4", gen: "r34" },
+        { id: "r44", label: "Random 4 × 4", gen: "r44" },
+        { id: "r45", label: "Random 4 × 5", gen: "r45" }
+      ] },
+      { group: "Linear system (augmented matrix)", items: [
+        { id: "sys3", label: "Random system · 3 equations, 3 unknowns", gen: "sys3" },
+        { id: "sys4", label: "Random system · 4 equations, 4 unknowns", gen: "sys4" }
+      ] },
+      { group: "Your own", items: [
+        { id: "custom", label: "Enter your own matrix…", custom: true }
+      ] }
+    ],
+    inverse: [
+      { group: "Random matrix", items: [
+        { id: "i2", label: "Random invertible 2 × 2", gen: "i2" },
+        { id: "i3", label: "Random invertible 3 × 3", gen: "i3" },
+        { id: "i4", label: "Random invertible 4 × 4", gen: "i4" },
+        { id: "imaybe", label: "Random 3 × 3, may not be invertible", gen: "imaybe" }
+      ] },
+      { group: "Practice", items: [
+        { id: "iex", label: "Practice 3 × 3 · the inverse has fractions", raw: [[0, 1, 2], [1, 0, 3], [4, -3, 8]] }
+      ] },
+      { group: "Your own", items: [
+        { id: "icustom", label: "Enter your own matrix A…", custom: true }
+      ] }
+    ]
+  };
+
+  const NEXT = { p1: "p2", p2: "p3", p3: "p4", p4: "r34", custom: "r34", iex: "i3", icustom: "i3" };
+
+  function findProblem(family, id) {
+    for (const g of PROBLEMS[family]) for (const p of g.items) if (p.id === id) return p;
+    return null;
+  }
+
+  // Returns { A, barCol }, where barCol is the number of entries before a "|" in every row, or -1 if there is no bar.
+  function parseMatrixText(text) {
+    let s = String(text).trim();
+    if (!s) throw new Error("Type the matrix entries, one row per line.");
+    s = s.replace(/\]\s*,\s*\[/g, ";").replace(/[[\]]/g, "");
+    const lines = s.split(/\s*[;\n]\s*/).map(r => r.trim()).filter(Boolean);
+    let barCol = -1;
+    const A = lines.map((line, i) => {
+      const parts = line.split("|");
+      if (parts.length > 2) throw new Error(`Row ${i + 1} has more than one bar “|”.`);
+      const pieces = parts.map(part => part.split(/[\s,]+/).filter(Boolean));
+      const col = parts.length === 2 ? pieces[0].length : -1;
+      if (i === 0) barCol = col;
+      else if (col !== barCol) throw new Error("Put the bar “|” in the same place in every row, or leave it out.");
+      return pieces.flat().map(tok => {
+        let v;
+        try { v = parseNumber(tok); } catch (_) { v = null; }
+        if (!v) throw new Error(`“${tok}” is not a number. Use integers, fractions like -3/2, or decimals.`);
+        return v;
+      });
+    });
+    const entries = k => `${k} ${k === 1 ? "entry" : "entries"}`;
+    for (let i = 1; i < A.length; i++) {
+      if (A[i].length !== A[0].length) throw new Error(`Row ${i + 1} has ${entries(A[i].length)}, but row 1 has ${entries(A[0].length)}.`);
+    }
+    return { A, barCol };
+  }
+
+  /* ---------- Page state ---------- */
+
+  const $ = id => document.getElementById(id);
+  const el = {
+    tabs: [...document.querySelectorAll(".modes button")], workspace: $("workspace"),
+    goal: $("goal"), problem: $("problemSelect"), newButton: $("newButton"), editButton: $("editButton"),
+    customPanel: $("customPanel"), customHelp: $("customHelp"), customInput: $("customInput"),
+    augWrap: $("augWrap"), customAug: $("customAug"), customError: $("customError"), customCancel: $("customCancel"),
+    caption: $("caption"), matrixBox: $("matrixBox"), rowLabels: $("rowLabels"), grid: $("matrixGrid"), leadToggle: $("leadToggle"),
+    status: $("status"),
+    opRadios: [...document.querySelectorAll('input[name="op"]')], opHelp: $("opHelp"), opForm: $("opForm"),
+    rows: { replace: $("fReplace"), swap: $("fSwap"), scale: $("fScale") },
+    repTarget: $("repTarget"), repEcho: $("repEcho"), repC: $("repC"), repSource: $("repSource"),
+    swapA: $("swapA"), swapB: $("swapB"), scaleRow: $("scaleRow"), scaleC: $("scaleC"), scaleEcho: $("scaleEcho"),
+    preview: $("preview"), apply: $("applyButton"), hint: $("hintButton"), check: $("checkButton"),
+    history: $("history"), historyEmpty: $("historyEmpty"), stepCount: $("stepCount"), undo: $("undoButton"), reset: $("resetButton"),
+    defs: { ref: $("defRef"), rref: $("defRref"), pivot: $("defPivot"), inv: $("defInv") }
+  };
+
+  const noMarks = () => ({ cells: [], refs: [], rows: [], refRows: [] });
+
+  const state = {
+    mode: "ref",
+    sessions: { rowred: null, inverse: null },
+    saved: { rowred: {}, inverse: {} },
+    lastProblem: { rowred: "p1", inverse: "i3" },
+    customOpener: null,
+    op: "replace",
+    lastSwap: null,
+    marks: noMarks(),
+    flashRows: []
+  };
+
+  const GOALS = {
+    ref: "Goal: use row operations to put the matrix in <b>echelon form</b>.",
+    rref: "Goal: use row operations to put the matrix in <b>reduced echelon form</b>.",
+    inverse: `Goal: row reduce <span class="nowrap">[A&nbsp;|&nbsp;I]</span>. If the left side becomes I, the right side is ${AINV}. If the left side gets a row of zeros, A is not invertible.`
+  };
+
+  const OP_HELP = {
+    replace: "Replacement: add a multiple of one row to another row. To subtract, use a negative c: <span class=\"nowrap\">c = −2 gives R<sub>2</sub> − 2R<sub>1</sub></span>.",
+    swap: "Interchange: swap two rows.",
+    scale: "Scaling: multiply every entry of a row by a nonzero number."
+  };
+
+  const family = () => (state.mode === "inverse" ? "inverse" : "rowred");
+  const sess = () => state.sessions[family()];
+
+  function safeGet(key) { try { return localStorage.getItem(key); } catch (_) { return null; } }
+  function safeSet(key, value) { try { localStorage.setItem(key, value); } catch (_) { /* storage unavailable */ } }
+
+  function setEnabled(button, on) { button.setAttribute("aria-disabled", String(!on)); }
+  const isEnabled = button => button.getAttribute("aria-disabled") !== "true";
+
+  /* ---------- Rendering ---------- */
+
+  function dividerOf(s) { return s.augmentCols ? s.matrix[0].length - s.augmentCols : 0; }
+  function rightName() { return state.mode === "inverse" ? "right side" : "right-hand side"; }
+
+  // A small bracketed matrix (no row labels), used for previews and results. `label` is what screen readers hear.
+  function gridHTML(X, divider, label) {
+    const cols = X[0].length;
+    let cells = "";
+    X.forEach(row => row.forEach((v, c) => {
+      cells += `<div class="cell${divider && c === divider ? " bar" : ""}"><span class="v">${numHTML(v)}</span></div>`;
+    }));
+    return `<div class="matrix-box mini" role="img" aria-label="${escapeHTML(label)}"><div class="bracket"><div class="grid" aria-hidden="true" style="grid-template-columns: repeat(${cols}, minmax(min-content, auto))">${cells}</div></div></div>`;
+  }
+
+  function renderMatrix() {
+    const s = sess();
+    const X = s.matrix;
+    const rows = X.length, cols = X[0].length;
+    const divider = dividerOf(s);
+    const leadLimit = state.mode === "inverse" ? divider : cols;
+    const flash = new Set(state.flashRows);
+
+    el.grid.style.gridTemplateColumns = `repeat(${cols}, auto)`;
+    let cells = "";
+    for (let r = 0; r < rows; r++) {
+      const lead = leadIndex(X[r], leadLimit);
+      for (let c = 0; c < cols; c++) {
+        const cls = ["cell"];
+        if (divider && c === divider) cls.push("bar");
+        if (c === lead) cls.push("lead");
+        if (flash.has(r)) cls.push("changed");
+        cells += `<div class="${cls.join(" ")}" data-r="${r}" data-c="${c}"><span class="v">${numHTML(X[r][c])}</span></div>`;
+      }
+    }
+    el.grid.innerHTML = cells;
+    el.rowLabels.innerHTML = X.map((_, r) => `<div class="row-label" data-r="${r}">R${r + 1}</div>`).join("");
+    el.matrixBox.setAttribute("aria-label", "Current matrix. " + matrixText(X, divider, rightName()));
+    el.matrixBox.classList.toggle("show-lead", el.leadToggle.checked);
+    state.flashRows = [];
+
+    if (state.mode === "inverse") {
+      el.caption.innerHTML = `Left of the bar: row reduce toward I. Right of the bar: starts as I, and becomes ${AINV} if the left side reaches I.`;
+    } else {
+      el.caption.textContent = s.augmentCols ? "Augmented matrix: the column after the bar is the right-hand side." : "";
+    }
+    paintMarks();
+    paintRowHighlights();
+  }
+
+  // Red marks for problems found by Check, teal marks for the entries they are compared with.
+  function paintMarks() {
+    const m = state.marks;
+    const cells = new Set(m.cells.map(([r, c]) => r + "," + c));
+    const refs = new Set(m.refs.map(([r, c]) => r + "," + c));
+    const rows = new Set(m.rows), refRows = new Set(m.refRows);
+    el.grid.querySelectorAll(".cell").forEach(node => {
+      const key = node.dataset.r + "," + node.dataset.c;
+      const r = +node.dataset.r;
+      node.classList.toggle("issue", cells.has(key));
+      node.classList.toggle("ref", refs.has(key));
+      node.classList.toggle("issue-row", rows.has(r));
+      node.classList.toggle("ref-row", refRows.has(r));
+    });
+    el.rowLabels.querySelectorAll(".row-label").forEach(node => {
+      const r = +node.dataset.r;
+      node.classList.toggle("issue-row", rows.has(r));
+      node.classList.toggle("ref-row", refRows.has(r));
+    });
+  }
+
+  function clearMarks() {
+    state.marks = noMarks();
+    paintMarks();
+  }
+
+  // Gold: the row that will change. Teal: the row being used. Only shown once the operation is complete.
+  function paintRowHighlights() {
+    const r = readOp();
+    const target = new Set(), source = new Set();
+    if (r.op) {
+      if (r.op.type === "replace") { target.add(r.op.target); source.add(r.op.source); }
+      if (r.op.type === "scale") target.add(r.op.row);
+      if (r.op.type === "swap") { source.add(r.op.a); source.add(r.op.b); }
+    }
+    document.querySelectorAll("#matrixGrid .cell, #rowLabels .row-label").forEach(node => {
+      const row = +node.dataset.r;
+      node.classList.toggle("hl-target", target.has(row));
+      node.classList.toggle("hl-source", source.has(row) && !target.has(row));
+    });
+  }
+
+  function renderModes() {
+    el.tabs.forEach(tab => {
+      const selected = tab.dataset.mode === state.mode;
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+    el.workspace.setAttribute("aria-labelledby", "tab-" + state.mode);
+    el.goal.innerHTML = GOALS[state.mode];
+    const s = sess();
+    el.defs.ref.open = state.mode === "ref";
+    el.defs.rref.open = state.mode === "rref";
+    el.defs.pivot.open = state.mode !== "inverse" && !!(s && s.augmentCols);
+    el.defs.inv.open = state.mode === "inverse";
+  }
+
+  function renderProblemOptions() {
+    el.problem.innerHTML = PROBLEMS[family()].map(g =>
+      `<optgroup label="${escapeHTML(g.group)}">` + g.items.map(p => `<option value="${p.id}">${escapeHTML(p.label)}</option>`).join("") + "</optgroup>"
+    ).join("");
+    if (sess()) el.problem.value = sess().problemId;
+  }
+
+  function renderProblemButtons() {
+    const s = sess();
+    const p = s && findProblem(family(), s.problemId);
+    el.editButton.hidden = !(p && p.custom);
+  }
+
+  function fillRowSelect(select, rows, value) {
+    select.innerHTML = Array.from({ length: rows }, (_, i) => `<option value="${i}">R${i + 1}</option>`).join("");
+    select.value = String(Math.min(value, rows - 1));
+  }
+
+  function resetEditor() {
+    const rows = sess().matrix.length;
+    fillRowSelect(el.repTarget, rows, 1);
+    fillRowSelect(el.repSource, rows, 0);
+    fillRowSelect(el.swapA, rows, 0);
+    fillRowSelect(el.swapB, rows, 1);
+    fillRowSelect(el.scaleRow, rows, 0);
+    el.repC.value = "";
+    el.scaleC.value = "";
+    state.lastSwap = null;
+    state.marks = noMarks();
+  }
+
+  function renderOpChooser() {
+    el.opRadios.forEach(radio => { radio.checked = radio.value === state.op; });
+    Object.entries(el.rows).forEach(([key, row]) => { row.hidden = key !== state.op; });
+    el.opHelp.innerHTML = OP_HELP[state.op];
+  }
+
+  function readOp() {
+    const s = sess();
+    if (!s) return { error: "" };
+    const X = s.matrix;
+    const numberError = "Use an integer, a fraction like -3/2, or a decimal like 0.5.";
+    if (state.op === "swap") {
+      const a = +el.swapA.value, b = +el.swapB.value;
+      const last = state.lastSwap;
+      if (last && last.matrix === X && ((last.a === a && last.b === b) || (last.a === b && last.b === a))) {
+        return { error: `You just interchanged R${a + 1} and R${b + 1}. Choose a different pair, or press Undo to swap them back.`, empty: true };
+      }
+      if (a === b) return { error: "Choose two different rows." };
+      if (rowsEqual(X[a], X[b])) return { error: `R${a + 1} and R${b + 1} are identical, so interchanging them changes nothing.` };
+      return { op: { type: "swap", a, b } };
+    }
+    if (state.op === "scale") {
+      const row = +el.scaleRow.value;
+      let c;
+      try { c = parseNumber(el.scaleC.value); } catch (_) { return { error: numberError }; }
+      if (c === null) return { error: "Type a nonzero number c.", empty: true };
+      if (c.isZero()) return { error: "The scale factor must be nonzero." };
+      if (c.isOne()) return { error: "Scaling by 1 leaves the row unchanged." };
+      if (isZeroRow(X[row])) return { error: `R${row + 1} is all zeros, so scaling it changes nothing.` };
+      return { op: { type: "scale", row, c } };
+    }
+    const target = +el.repTarget.value, source = +el.repSource.value;
+    if (target === source) return { error: "Choose two different rows." };
+    let c;
+    try { c = parseNumber(el.repC.value); } catch (_) { return { error: numberError }; }
+    if (c === null) return { error: "Type the multiplier c.", empty: true };
+    if (c.isZero()) return { error: "With c = 0 the row would not change." };
+    if (isZeroRow(X[source])) return { error: `R${source + 1} is all zeros, so adding a multiple of it changes nothing.` };
+    return { op: { type: "replace", target, source, c } };
+  }
+
+  function renderPreview() {
+    el.repEcho.textContent = `R${+el.repTarget.value + 1}`;
+    el.scaleEcho.textContent = `R${+el.scaleRow.value + 1}`;
+    const r = readOp();
+    const s = sess();
+    setEnabled(el.apply, !!r.op);
+    el.preview.classList.toggle("bad", !r.op && !r.empty);
+    if (!r.op) {
+      el.preview.textContent = r.error;
+    } else if (r.op.type === "swap") {
+      el.preview.innerHTML = `Rows ${r.op.a + 1} and ${r.op.b + 1} will trade places.`;
+    } else {
+      const row = r.op.type === "scale" ? r.op.row : r.op.target;
+      const after = applyOp(s.matrix, r.op)[row];
+      const divider = dividerOf(s);
+      el.preview.innerHTML = `<span>R<sub>${row + 1}</sub> becomes</span>` + gridHTML([after], divider, `New row ${row + 1}: ${rowText(after, divider, rightName())}.`);
+    }
+    paintRowHighlights();
+  }
+
+  function renderHistory() {
+    const h = sess().history;
+    el.history.innerHTML = h.map(step => `<li>${labelHTML(step.label)}</li>`).join("");
+    el.historyEmpty.hidden = h.length > 0;
+    el.history.hidden = h.length === 0;
+    el.stepCount.textContent = h.length === 1 ? "1 step" : `${h.length} steps`;
+    setEnabled(el.undo, h.length > 0);
+    setEnabled(el.reset, h.length > 0);
+    el.history.scrollTop = el.history.scrollHeight;
+  }
+
+  function setStatus(kind, title, bodyHTML, actions = []) {
+    el.status.className = "status" + (kind ? " " + kind : "");
+    const buttons = actions.length
+      ? `<div class="actions">${actions.map(a => `<button type="button" class="btn${a.primary ? " primary" : ""}" data-action="${a.action}">${a.label}</button>`).join("")}</div>`
+      : "";
+    el.status.innerHTML = (title ? `<span class="st-title">${title}</span>` : "") + bodyHTML + buttons;
+  }
+
+  function renderAll() {
+    renderModes();
+    renderProblemButtons();
+    renderOpChooser();
+    renderMatrix();
+    renderPreview();
+    renderHistory();
+  }
+
+  /* ---------- Goal checking and messages ---------- */
+
+  function goalState() {
+    const s = sess();
+    const X = s.matrix;
+    if (state.mode === "ref") { const a = analyzeEchelon(X); return { done: a.ok, analysis: a }; }
+    if (state.mode === "rref") { const a = analyzeReduced(X); return { done: a.ok, analysis: a }; }
+    const inv = analyzeInverse(X, s.augmentCols);
+    return { done: inv.status === "done", singular: inv.status === "singular", row: inv.row, inverse: inv.inverse, analysis: inv.analysis };
+  }
+
+  const varHTML = j => `x<sub>${j + 1}</sub>`;
+  const listText = items => items.length <= 1 ? items.join("") : items.slice(0, -1).join(", ") + " and " + items[items.length - 1];
+
+  // Parametric description of the solution set, read from a reduced echelon augmented matrix.
+  function generalSolution(X, pivots, free, unknowns) {
+    const equations = pivots.filter(([, c]) => c < unknowns).map(([r, c]) => {
+      const terms = [];
+      if (!X[r][unknowns].isZero()) terms.push({ v: X[r][unknowns], name: "" });
+      for (const j of free) if (!X[r][j].isZero()) terms.push({ v: X[r][j].neg(), name: varHTML(j) });
+      if (!terms.length) return `<span class="nowrap">${varHTML(c)} = 0</span>`;
+      const text = terms.map((t, k) => {
+        const neg = t.v.n < 0n;
+        const abs = t.v.abs();
+        const body = t.name ? (abs.isOne() ? "" : numHTML(abs)) + t.name : numHTML(abs);
+        return k === 0 ? (neg ? "−" : "") + body : (neg ? " − " : " + ") + body;
+      }).join("");
+      return `<span class="nowrap">${varHTML(c)} = ${text}</span>`;
+    });
+    if (!equations.length) return `Every choice of ${listText(free.map(varHTML))} is a solution.`;
+    return `General solution: ${equations.join(", ")}, with ${listText(free.map(varHTML))} free.`;
+  }
+
+  function systemSummary(X, pivots, reduced) {
+    const unknowns = X[0].length - 1;
+    const bad = X.findIndex(row => isZeroRow(row, unknowns) && !row[unknowns].isZero());
+    if (bad >= 0) {
+      return `<p>Column ${unknowns + 1}, the right-hand side, is a pivot column: row ${bad + 1} says 0 = ${fmt(X[bad][unknowns])}, which is impossible. The system has <b>no solution</b> (it is inconsistent).</p>`;
+    }
+    const basic = pivots.map(p => p[1]).filter(c => c < unknowns);
+    const free = [...Array(unknowns).keys()].filter(j => !basic.includes(j));
+    if (free.length === 0) {
+      if (reduced) {
+        const values = pivots.map(([r, c]) => `<span class="nowrap">${varHTML(c)} = ${numHTML(X[r][unknowns])}</span>`);
+        return `<p>The system is consistent with <b>exactly one solution</b>: ${values.join(", ")}.</p>`;
+      }
+      return "<p>No row says 0 = b with b ≠ 0, so the system is consistent. Every variable column has a pivot, so the solution is <b>unique</b>. Switch to reduced echelon form to read it off.</p>";
+    }
+    const freeText = `${listText(free.map(varHTML))} ${free.length === 1 ? "is a free variable" : "are free variables"}`;
+    const basicText = basic.length
+      ? `Basic variable${basic.length === 1 ? "" : "s"}: ${listText(basic.map(varHTML))}.`
+      : "There are no basic variables.";
+    let text = `<p>The system is consistent, and ${freeText}, so there are <b>infinitely many solutions</b>. ${basicText}</p>`;
+    if (reduced) text += `<p>${generalSolution(X, pivots, free, unknowns)}</p>`;
+    return text;
+  }
+
+  function showSuccess(g) {
+    const s = sess();
+    const X = s.matrix;
+    const steps = s.history.length;
+    const doneIn = `Done in ${steps} step${steps === 1 ? "" : "s"}.`;
+    const next = { action: "next", label: "Next matrix", primary: true };
+    state.marks = noMarks();
+
+    if (state.mode === "inverse") {
+      const n = s.augmentCols;
+      if (g.singular) {
+        state.marks.refRows = [g.row];
+        paintMarks();
+        const when = steps === 0 ? "You can see this in the starting matrix." : `Found in ${steps} step${steps === 1 ? "" : "s"}.`;
+        setStatus("success", "A is not invertible.",
+          `<p>Row ${g.row + 1} of the left side is all zeros, so A cannot be row reduced to I. ${when}</p>`, [next]);
+        return;
+      }
+      paintMarks();
+      const A = s.start.map(row => row.slice(0, n));
+      const intro = steps === 0 ? `A is already I, so ${AINV} = I.` : `The left side is I, so the right side is ${AINV}. ${doneIn}`;
+      setStatus("success", "A is invertible.",
+        `<p>${intro}</p>` +
+        `<div class="result-row"><div class="named"><span class="name">A =</span>${gridHTML(A, 0, "A. " + matrixText(A, 0, ""))}</div>` +
+        `<div class="named"><span class="name">${AINV} =</span>${gridHTML(g.inverse, 0, "A inverse. " + matrixText(g.inverse, 0, ""))}</div></div>` +
+        `<p>You can check the answer: A·${AINV} should equal I.</p>`, [next]);
+      return;
+    }
+
+    paintMarks();
+    const reduced = state.mode === "rref";
+    const pivots = g.analysis.pivots;
+    const formName = reduced ? "reduced echelon form" : "echelon form";
+    const title = reduced ? "Reduced echelon form reached." : "Echelon form reached.";
+    const intro = steps === 0 ? `The matrix was already in ${formName}, so no steps were needed.` : doneIn;
+    let body = `<p>${intro} Pivot column${pivots.length === 1 ? "" : "s"}: ${pivots.length ? listText(pivots.map(p => String(p[1] + 1))) : "none"}.</p>`;
+    if (s.augmentCols) body += systemSummary(X, pivots, reduced);
+    body += reduced
+      ? "<p>The reduced echelon form of a matrix is unique, so everyone should end with this same matrix.</p>"
+      : "<p>Echelon forms are not unique, so a classmate's answer can look different and still be correct. The pivot positions are the same in every echelon form, though.</p>";
+    const actions = reduced ? [next] : [{ action: "toRref", label: "Continue to reduced echelon form", primary: true }, { action: "next", label: "Next matrix" }];
+    setStatus("success", title, body, actions);
+  }
+
+  // Shows the success message when the goal is reached. Returns whether it was.
+  function evaluate() {
+    const g = goalState();
+    if (g.done || g.singular) { showSuccess(g); return true; }
+    return false;
+  }
+
+  /* ---------- Actions ---------- */
+
+  function focusOpControl() {
+    (state.op === "replace" ? el.repC : state.op === "scale" ? el.scaleC : el.swapA).focus();
+  }
+
+  const START_MESSAGE = "<p>Choose a row operation below, check the preview, and press Apply.</p>";
+  const stepsSoFar = n => `<p>Welcome back: ${n} step${n === 1 ? "" : "s"} so far on this matrix.</p>`;
+
+  // Picking a problem from the list returns to saved work on it. `fresh` (the New matrix button) always starts over.
+  function loadProblem(id, { fresh = false, focus = true } = {}) {
+    const fam = family();
+    const p = findProblem(fam, id) || findProblem(fam, state.lastProblem[fam]);
+    const current = sess();
+    if (!fresh && current && current.problemId === p.id) { closeCustom(); return; }
+    if (!fresh && state.saved[fam][p.id]) {
+      restoreSession(fam, p.id);
+      if (p.custom) {
+        if (!sess().history.length) openCustom({ focus });
+        else if (!el.status.classList.contains("success")) el.status.insertAdjacentHTML("beforeend", "<p>Press <b>Edit matrix</b> to type a different matrix.</p>");
+      }
+      return;
+    }
+    if (p.custom) { openCustom({ focus }); return; }
+    let A, augmentCols = p.aug || 0;
+    if (p.raw) A = fromRaw(p.raw);
+    else ({ A, augmentCols } = generate(p.gen));
+    startSession(fam, p.id, A, augmentCols);
+  }
+
+  function startSession(fam, problemId, A, augmentCols) {
+    const start = fam === "inverse" ? hstack(A, identity(A.length)) : A;
+    const session = { problemId, start, matrix: start, augmentCols: fam === "inverse" ? A.length : augmentCols, history: [] };
+    state.sessions[fam] = session;
+    state.saved[fam][problemId] = session;
+    state.lastProblem[fam] = problemId;
+    closeCustom();
+    el.problem.value = problemId;
+    resetEditor();
+    renderAll();
+    if (!evaluate()) setStatus("", "", START_MESSAGE);
+  }
+
+  function restoreSession(fam, problemId) {
+    state.sessions[fam] = state.saved[fam][problemId];
+    state.lastProblem[fam] = problemId;
+    closeCustom();
+    el.problem.value = problemId;
+    resetEditor();
+    renderAll();
+    const n = sess().history.length;
+    if (!evaluate()) setStatus("", "", n ? stepsSoFar(n) : START_MESSAGE);
+  }
+
+  function isSolved(session) {
+    const X = session.matrix;
+    if (state.mode === "ref") return analyzeEchelon(X).ok;
+    if (state.mode === "rref") return analyzeReduced(X).ok;
+    return analyzeInverse(X, session.augmentCols).status !== "progress";
+  }
+
+  // Moves on to the next practice problem (keeping unfinished work on it) or a new random matrix.
+  function nextProblem() {
+    const current = sess().problemId;
+    const target = NEXT[current] || current;
+    const saved = state.saved[family()][target];
+    const keep = target !== current && findProblem(family(), target).raw && saved && saved.history.length && !isSolved(saved);
+    loadProblem(target, { fresh: !keep });
+  }
+
+  const sameMatrix = (A, B) => A.length === B.length && A.every((row, i) => row.length === B[i].length && rowsEqual(row, B[i]));
+
+  function openCustom({ focus = true, opener = el.problem } = {}) {
+    if (!el.customPanel.hidden) { if (focus) el.customInput.focus(); return; }
+    state.customOpener = opener;
+    const inverse = family() === "inverse";
+    el.customHelp.textContent = inverse
+      ? "Type the square matrix A, one row per line, with entries separated by spaces or commas. [A | I] is built for you. Sizes 2 × 2 to 5 × 5."
+      : "Type one row per line, with entries separated by spaces or commas. Fractions like -3/2 are fine. For an augmented matrix, put a bar | before the last entry of each row. Up to 6 rows and 8 columns.";
+    el.augWrap.hidden = inverse;
+    const s = sess();
+    if (s) {
+      const n = inverse ? s.augmentCols : s.start[0].length;
+      const bar = !inverse && s.augmentCols === 1;
+      el.customInput.value = s.start.map(row => {
+        const vals = row.slice(0, n).map(v => v.toString());
+        return bar ? vals.slice(0, -1).join("  ") + "  |  " + vals[vals.length - 1] : vals.join("  ");
+      }).join("\n");
+      el.customAug.checked = bar;
+    }
+    el.customError.textContent = "";
+    el.customPanel.hidden = false;
+    el.editButton.setAttribute("aria-expanded", "true");
+    el.problem.value = inverse ? "icustom" : "custom";
+    if (focus) el.customInput.focus();
+  }
+
+  function closeCustom() {
+    el.customPanel.hidden = true;
+    el.editButton.setAttribute("aria-expanded", "false");
+    el.customError.textContent = "";
+    if (sess()) el.problem.value = sess().problemId;
+  }
+
+  function cancelCustom() {
+    closeCustom();
+    const opener = state.customOpener && !state.customOpener.hidden ? state.customOpener : el.problem;
+    opener.focus();
+  }
+
+  // Keep the bar in the text and the augmented checkbox in agreement.
+  function syncBarsToCheckbox() {
+    if (el.customAug.checked) {
+      if (el.customInput.value.includes("|")) return;
+      // Rewrite as one row per line with a bar before the last entry. If the text doesn't parse yet, leave it alone.
+      let parsed;
+      try { parsed = parseMatrixText(el.customInput.value); } catch (_) { return; }
+      el.customInput.value = parsed.A.map(row =>
+        row.slice(0, -1).map(String).join("  ") + "  |  " + String(row[row.length - 1])
+      ).join("\n");
+    } else {
+      el.customInput.value = el.customInput.value.replace(/\s*\|\s*/g, "  ");
+    }
+  }
+
+  function submitCustom(event) {
+    event.preventDefault();
+    const fam = family();
+    const inverse = fam === "inverse";
+    let parsed;
+    try { parsed = parseMatrixText(el.customInput.value); } catch (error) { el.customError.textContent = error.message; return; }
+    let { A, barCol } = parsed;
+    const rows = A.length;
+    let augmentCols;
+    if (inverse) {
+      // Accept [A | I] typed in full by keeping only A.
+      const typedFull = A[0].length === 2 * rows && (barCol === rows || barCol === -1) && isIdentity(A.map(row => row.slice(rows)), rows);
+      if (typedFull) A = A.map(row => row.slice(0, rows));
+      else if (barCol >= 0) { el.customError.textContent = "Type only A. [A | I] is built for you."; return; }
+      const cols = A[0].length;
+      const count = (k, word) => `${k} ${word}${k === 1 ? "" : "s"}`;
+      if (rows !== cols) { el.customError.textContent = `A must be square, but you typed ${count(rows, "row")} and ${count(cols, "column")}.`; return; }
+      if (rows < 2 || rows > 5) { el.customError.textContent = "Use a matrix from 2 × 2 up to 5 × 5."; return; }
+      augmentCols = rows;
+    } else {
+      const cols = A[0].length;
+      let augmented = el.customAug.checked;
+      if (barCol >= 0) {
+        if (barCol !== cols - 1) {
+          el.customError.textContent = "Put the bar | right before the last entry of each row. (To find an inverse with [A | I], use the Inverse tab.)";
+          return;
+        }
+        augmented = true;
+      }
+      if (rows < 2 || rows > 6 || cols < 2 || cols > 8) { el.customError.textContent = "Use 2 to 6 rows and 2 to 8 columns."; return; }
+      augmentCols = augmented ? 1 : 0;
+    }
+
+    // Submitting the same matrix again keeps the work done on it.
+    const id = inverse ? "icustom" : "custom";
+    const old = state.saved[fam][id];
+    if (old) {
+      const oldA = inverse ? old.start.map(row => row.slice(0, old.augmentCols)) : old.start;
+      if (sameMatrix(A, oldA) && (inverse || old.augmentCols === augmentCols)) {
+        if (sess() === old) { closeCustom(); el.matrixBox.focus(); } else restoreSession(fam, id);
+        return;
+      }
+    }
+    const lost = old ? old.history.length : 0;
+    startSession(fam, id, A, augmentCols);
+    if (lost) {
+      const note = `<p>New matrix loaded. ${lost === 1 ? "The 1 step on your previous matrix was" : `The ${lost} steps on your previous matrix were`} cleared.</p>`;
+      const title = el.status.querySelector(".st-title");
+      if (el.status.classList.contains("success") && title) title.insertAdjacentHTML("afterend", note);
+      else setStatus("", "", note);
+    }
+    el.matrixBox.focus();
+  }
+
+  function setMode(mode) {
+    if (!["ref", "rref", "inverse"].includes(mode)) mode = "ref";
+    if (mode === state.mode && sess()) return;
+    const before = family();
+    state.mode = mode;
+    try { history.replaceState(null, "", "#" + mode); } catch (_) { /* file:// or sandboxed */ }
+    renderProblemOptions();
+    if (!sess()) { loadProblem(state.lastProblem[family()]); return; }
+    if (before !== family()) { closeCustom(); resetEditor(); }
+    else if (!el.customPanel.hidden) el.problem.value = family() === "inverse" ? "icustom" : "custom";
+    state.marks = noMarks();
+    renderAll();
+    if (!evaluate()) {
+      const steps = sess().history.length;
+      let message = START_MESSAGE;
+      if (before === family() && steps) message = "<p>Same matrix, new goal. Keep going from where you are.</p>";
+      else if (steps) message = stepsSoFar(steps);
+      setStatus("", "", message);
+    }
+  }
+
+  function applyCurrent(event) {
+    if (event) event.preventDefault();
+    const r = readOp();
+    if (!r.op) { renderPreview(); focusOpControl(); return; }
+    const s = sess();
+    const label = opLabel(r.op);
+    s.history.push({ label, before: s.matrix, op: r.op });
+    s.matrix = applyOp(s.matrix, r.op);
+    state.marks = noMarks();
+    const changed = r.op.type === "swap" ? [r.op.a, r.op.b] : [r.op.type === "scale" ? r.op.row : r.op.target];
+    state.flashRows = changed;
+    state.lastSwap = r.op.type === "swap" ? { matrix: s.matrix, a: r.op.a, b: r.op.b } : null;
+    el.repC.value = "";
+    el.scaleC.value = "";
+    renderMatrix();
+    renderPreview();
+    renderHistory();
+    const spokenRows = changed.map(i => `Row ${i + 1} is now ${rowText(s.matrix[i], dividerOf(s), rightName())}.`).join(" ");
+    if (!evaluate()) setStatus("", "", `<p>Step ${s.history.length}: ${labelHTML(label)}<span class="sr-only"> ${escapeHTML(spokenRows)}</span></p>`);
+  }
+
+  function undo() {
+    const s = sess();
+    const last = s.history.pop();
+    if (!last) return;
+    s.matrix = last.before;
+    state.marks = noMarks();
+    state.lastSwap = null;
+    renderMatrix();
+    renderPreview();
+    renderHistory();
+    if (!evaluate()) setStatus("", "", `<p>Undid ${labelHTML(last.label)}.</p>`);
+  }
+
+  function startOver() {
+    const s = sess();
+    if (!s.history.length) return;
+    s.matrix = s.start;
+    s.history = [];
+    state.marks = noMarks();
+    state.lastSwap = null;
+    renderMatrix();
+    renderPreview();
+    renderHistory();
+    if (!evaluate()) setStatus("", "", "<p>Back to the starting matrix.</p>");
+  }
+
+  function fillForm(op) {
+    state.op = op.type;
+    state.lastSwap = null;
+    if (op.type === "replace") {
+      el.repTarget.value = String(op.target);
+      el.repSource.value = String(op.source);
+      el.repC.value = op.c.toString();
+    } else if (op.type === "swap") {
+      el.swapA.value = String(op.a);
+      el.swapB.value = String(op.b);
+    } else {
+      el.scaleRow.value = String(op.row);
+      el.scaleC.value = op.c.toString();
+    }
+    renderOpChooser();
+    renderPreview();
+  }
+
+  function hint() {
+    const g = goalState();
+    if (g.done || g.singular) { showSuccess(g); return; }
+    const s = sess();
+    const goal = state.mode;
+    const limit = goal === "inverse" ? s.augmentCols : s.matrix[0].length;
+    const h = nextHint(s.matrix, goal, limit, s.history[s.history.length - 1] || null);
+    if (!h) { setStatus("", "", "<p>No hint is available for this matrix.</p>"); return; }
+    clearMarks();
+    fillForm(h.op);
+    const phase = h.phase === "forward"
+      ? "Hint · forward phase (create zeros below each pivot)"
+      : "Hint · backward phase (from the rightmost pivot, scale to 1 and create zeros above)";
+    setStatus("hint", phase, `<p>${labelHTML(h.why)}</p><p>It is filled in below. Press <b>Apply</b> to use it, or try a step of your own.</p>`);
+  }
+
+  function check() {
+    const g = goalState();
+    if (g.done || g.singular) { showSuccess(g); return; }
+    const a = g.analysis;
+    state.marks = { cells: a.cells || [], refs: a.refs || [], rows: a.rows || [], refRows: [] };
+    paintMarks();
+    const prefix = state.mode === "inverse" ? "The left side is not I yet. " : "";
+    const title = state.mode === "ref" ? "Not in echelon form yet." : state.mode === "rref" ? "Not in reduced echelon form yet." : "Not finished yet.";
+    setStatus("warn", title, `<p>${prefix}${escapeHTML(a.msg)}</p>`);
+  }
+
+  /* ---------- Events ---------- */
+
+  el.tabs.forEach(tab => tab.addEventListener("click", () => setMode(tab.dataset.mode)));
+  el.tabs.forEach((tab, i) => tab.addEventListener("keydown", event => {
+    const n = el.tabs.length;
+    const target = { ArrowRight: (i + 1) % n, ArrowLeft: (i + n - 1) % n, Home: 0, End: n - 1 }[event.key];
+    if (target === undefined) return;
+    event.preventDefault();
+    el.tabs[target].focus();
+    setMode(el.tabs[target].dataset.mode);
+  }));
+
+  el.problem.addEventListener("change", () => loadProblem(el.problem.value, { focus: false }));
+  el.newButton.addEventListener("click", nextProblem);
+  el.editButton.addEventListener("click", () => openCustom({ opener: el.editButton }));
+  el.customPanel.addEventListener("submit", submitCustom);
+  el.customCancel.addEventListener("click", cancelCustom);
+  el.customPanel.addEventListener("keydown", event => { if (event.key === "Escape") cancelCustom(); });
+  el.customAug.addEventListener("change", syncBarsToCheckbox);
+  el.customInput.addEventListener("input", () => { if (el.customInput.value.includes("|")) el.customAug.checked = true; });
+
+  el.opRadios.forEach(radio => radio.addEventListener("change", () => {
+    state.op = radio.value;
+    renderOpChooser();
+    renderPreview();
+  }));
+  [el.repTarget, el.repSource, el.swapA, el.swapB, el.scaleRow].forEach(select => select.addEventListener("change", renderPreview));
+  [el.repC, el.scaleC].forEach(input => input.addEventListener("input", renderPreview));
+  el.opForm.addEventListener("submit", applyCurrent);
+  el.hint.addEventListener("click", hint);
+  el.check.addEventListener("click", check);
+  el.undo.addEventListener("click", () => { if (isEnabled(el.undo)) undo(); });
+  el.reset.addEventListener("click", () => { if (isEnabled(el.reset)) startOver(); });
+
+  el.leadToggle.addEventListener("change", () => {
+    el.matrixBox.classList.toggle("show-lead", el.leadToggle.checked);
+    safeSet("echelonMinerLead", el.leadToggle.checked ? "on" : "off");
+  });
+
+  el.status.addEventListener("click", event => {
+    const button = event.target.closest("[data-action]");
+    if (!button) return;
+    if (button.dataset.action === "next") nextProblem();
+    if (button.dataset.action === "toRref") setMode("rref");
+    el.matrixBox.focus();
+  });
+
+  document.addEventListener("keydown", event => {
+    if (!el.customPanel.hidden) return;
+    const t = document.activeElement;
+    const typing = t.tagName === "TEXTAREA" || (t.tagName === "INPUT" && t.type === "text" && t.value !== "");
+    if (!typing && !event.shiftKey && (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z") {
+      event.preventDefault();
+      const fromStatus = el.status.contains(t);
+      undo();
+      if (fromStatus) el.matrixBox.focus();
+    }
+  });
+
+  window.addEventListener("hashchange", () => {
+    const mode = location.hash.slice(1);
+    if (mode !== state.mode && ["ref", "rref", "inverse"].includes(mode)) setMode(mode);
+  });
+
+  /* ---------- Start ---------- */
+
+  window.EchelonCore = {
+    Fraction, parseNumber, parseMatrixText, fromRaw, identity, hstack, matMul, applyOp, opLabel,
+    analyzeEchelon, analyzeReduced, analyzeInverse, nextHint, simulate, generate, GENERATORS, FALLBACK, PROBLEMS
+  };
+
+  el.leadToggle.checked = safeGet("echelonMinerLead") !== "off";
+  const initial = location.hash.slice(1);
+  setMode(["ref", "rref", "inverse"].includes(initial) ? initial : "ref");
+})();
+</script>
+</body>
+</html>
