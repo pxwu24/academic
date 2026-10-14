@@ -169,6 +169,16 @@ h3 {
   font-size: clamp(1.08rem, 2vw, 1.35rem);
 }
 
+.hero-copy a {
+  color: inherit;
+  text-decoration-color: var(--gold);
+}
+
+.hero-copy a:hover,
+.hero-copy a:focus-visible {
+  color: var(--gold);
+}
+
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
@@ -500,6 +510,58 @@ h3 {
   .flip-card-inner {
     transition: none;
   }
+}
+
+.related-statements {
+  margin-top: 48px;
+  padding-top: 30px;
+  border-top: 1px solid var(--line);
+}
+
+.related-statements h3 {
+  margin: 0 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.5rem, 3vw, 1.85rem);
+  line-height: 1.25;
+}
+
+.statement-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.statement-links li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  column-gap: 28px;
+  row-gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.statement-links li:last-child {
+  border-bottom: 0;
+}
+
+.statement-links a {
+  min-width: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.statement-links a:focus-visible {
+  outline: 2px solid var(--teal-dark);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.statement-links time {
+  color: var(--muted);
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .split-band {
